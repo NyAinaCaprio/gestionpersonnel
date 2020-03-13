@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AutoAbsence{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Autorisation d'absence</h1>
+
+    {{ include('auto_absence/_form.html.twig') }}
+
+    <div class="text-center" >
+        <a href="{{ path('auto_absence_index') }}" class="btn btn-info">Retour</a>
+    </div>
+</div>
+{% endblock %}

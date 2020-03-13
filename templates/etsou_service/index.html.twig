@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EtsouService index{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>EtsouService index</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Etsouservice</th>
+                <th>Obs</th>
+                <th>Libelle</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for etsou_service in etsou_services %}
+                <tr>
+                    <td>{{ etsou_service.id }}</td>
+                    <td>{{ etsou_service.etsouservice }}</td>
+                    <td>{{ etsou_service.obs }}</td>
+                    <td>{{ etsou_service.libelle }}</td>
+                    <td>
+                        <a href="{{ path('etsou_service_show', {'id': etsou_service.id}) }}" class="text-primary">Voir</a>
+                        <a href="{{ path('etsou_service_edit', {'id': etsou_service.id}) }}" class="text-danger">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Pas d'enrgistrement</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('etsou_service_new') }}" class="btn btn-success">Création</a>
+    </div>
+{% endblock %}

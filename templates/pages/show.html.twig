@@ -1,0 +1,179 @@
+{% extends 'base.html.twig' %}
+{% block title %} {{ parent() }} {{ personnel.nomprenom }} {% endblock %}
+{% block stylesheets %} {% endblock %}
+{% block body %}
+
+    <div class="container mt-4">
+        <div class="text-center"><h3>FICHE INDIVIDUELLE DU PERSONNEL CIVIL </h3></div>
+        <div class="row">
+            <div class="col-md-4"><div class="text-left">Catégorie : {{ personnel.categorie.categorie }} </div></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"><div class="text-left">Service ou Etablissement : {% if personnel.etsouservice.etsouservice is defined %} {{ personnel.etsouservice.etsouservice }} {% endif %} </div></div>
+        </div>
+        <div class="text-right">N° : </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Rensegnements personnels</h4>
+                <div class="">Nom et Prénom(s) : {{ personnel.nomprenom }}</div>
+                <div class="">Date de naissance : {{ personnel.datenaisse| date("d/m/Y") }}</div>
+                <div class="">Lieu de naissance : {{ personnel.lieu}}</div>
+                <div class="">Sexe: {{ personnel.sexe}}</div>
+                <div class="">CIN N° : {{ personnel.cin}}</div>
+                <div class="">Délivré le : {{ personnel.delivrele | date("d/m/Y")}}</div>
+                <div class="">à : {{ personnel.a}}</div>
+                <div class="">Situation matrimonial : {{ personnel.situationmatrimoniale}}</div>
+                <div class="">Groupe sanguin: {{ personnel.groupesanguin}}</div>
+                <div class="">Groupe éthnique: {{ personnel.groupeethnique}}</div>
+                <div class="">Groupe religion: {{ personnel.religion}}</div>
+            </div>
+            <div class="col-md-4">
+                <h5>ETAT DE SERVICES</h5>
+                <div class="col">Affectation Actuelle: {{ personnel.affectionactuelle}}</div>
+                <div class="col">Direction: {% if personnel.direction.name is defined  %} {{ personnel.direction.name}} {% endif %}</div>
+                <div class="col">Lieu de détachement : {% if personnel.detachement.name is defined %} {{ personnel.detachement.name}} {% endif %}</div>
+                <div class="col">Fonction: {{ personnel.fonction}}</div>
+                <div class="col">Matricule : {{ personnel.matricule}}</div>
+                <div class="col">Date de recrutement : {{ personnel.daterecrute | date('d/m/Y')}}</div>
+                <div class="col">Indice : {{ personnel.indice}}</div>
+                <div class="col">Intérruption du : {{ personnel.interruptiondu | date("d/m/Y") }}</div>
+                <div class="col">au : {{ personnel.au | date("d/m/Y")}}</div>
+                <div class="col">Sortant Ecole : {{ personnel.sortantecole}}</div>
+            </div>
+            <div class="col-md-2">
+                <h5>Photo</h5>
+                <img src="{{ vich_uploader_asset(personnel, 'imageFile') }}" alt="card-img-top" style="width: 100%; height: auto">
+            </div>
+        </div>
+        <hr>
+        <h5>Conjoint(e)</h5>
+        <div class="row">
+            <div class="col-md-4">Nom & Prénom(s)  : {% if personnel.nomconjoint is defined %} {{ personnel.nomconjoint }} {% endif %}</div>
+            <div class="col-md-4">Date de naissance : {% if personnel.dateNaissConj is defined %} {{ personnel.dateNaissConj | date('d/M/Y') }} {% endif %}</div>
+         </div>
+        <div class="row">
+            <div class="col-md-4">Date de mariage : {% if personnel.datemariage is defined %} {{ personnel.datemariage | date('d/M/Y') }} {% endif %}</div>
+            <div class="col-md-4">Lieu de naissance : {% if personnel.lieuNaissConj is defined %} {{ personnel.lieuNaissConj }} {% endif %}</div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <h5>Enfants</h5>
+                <table class="table table-responsive small">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nom & Prénoms</th>
+                        <th scope="col">Date de naisance</th>
+                        <th scope="col">Sexe</th>
+                        <th scope="col">Observation</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if personnel.enfant is defined %}
+                        {% for enfant in personnel.enfant %}
+                            <tr>
+                                <th>{{ enfant.nomprenom }}</th>
+                                <th>{{ enfant.datenaisse | date('d/m/Y')}}</th>
+                                <th>{{ enfant.sexe }}</th>
+                                <th>{{ enfant.observation }}</th>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <h5>Avancement</h5>
+                <table class="table table-responsive small">
+                    <thead>
+                    <tr>
+                        <th scope="col">Statu</th>
+                        <th scope="col">Reférence</th>
+                        <th scope="col">Date Effet</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if personnel.avancement is defined %}
+                        {% for avancement in personnel.avancement %}
+                            <tr>
+                                <th>{{ avancement.statu }}</th>
+                                <th>{{ avancement.reference}}</th>
+                                <th>{{ avancement.dateeffet | date('d/m/Y') }}</th>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <h5>Décoration</h5>
+                <table class="table table-responsive small">
+                    <thead>
+                    <tr>
+                        <th scope="col">Décoration</th>
+                        <th scope="col">Decret ou Arrêté</th>
+                        <th scope="col">Année</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if personnel.decoration is defined %}
+                        {% for decoration in personnel.decoration %}
+                            <tr>
+                                <th>{{ decoration.listeDeco.decoration }}</th>
+                                <th>{{ decoration.decretouarrete}}</th>
+                                <th>{{ decoration.annee }}</th>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <h5>Affectations Successives</h5>
+                <table class="table table-responsive small">
+                    <thead>
+                    <tr>
+                        <th scope="col">Lieu Affectation</th>
+                        <th scope="col">Détachement</th>
+                        <th scope="col">Fonction Tenue</th>
+                        <th scope="col">Date Effet</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if personnel.affectationsuccessive is defined %}
+                        {% for affectation in personnel.affectationsuccessive %}
+                            <tr>
+                                <th>{{ affectation.lieuaffect }}</th>
+                                <th> {% if affectation.detachement.name is defined %} {{ affectation.detachement.name }} {% endif %} </th>
+                                <th> {{ affectation.fonctiontenue }}</th>
+                                <th> {{ affectation.dateeffet | date('d/m/Y')}}</th>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr>
+        <h5>Aptitude Particulier</h5>
+        <div class="row">
+            <div class="col">
+                <div>Permis de conduire N° : {% if personnel.numPermis is defined %} {{ personnel.numPermis}} {% endif %} </div>
+                <div>Autres : {% if personnel.aptitudeparti.autres is defined %} {{ personnel.aptitudeparti.autres}} {% endif %} </div>
+            </div>
+            <div class="col">
+                <div>Délivré le : {% if personnel.permisDelivrele is defined %} {{ personnel.permisDelivrele | date('d/m/yyyy')}} {% endif %} </div>
+                <div>à : {% if personnel.lieuDelivrance is defined %} {{ personnel.lieuDelivrance }} {% endif %} </div>
+            </div>
+            <div class="col">
+                <div>Catégorie : {% if personnel.permisCategorie is defined %} {{ personnel.permisCategorie }} {% endif %} </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+{% block Javascript %} {% endblock %}

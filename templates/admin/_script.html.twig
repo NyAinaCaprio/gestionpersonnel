@@ -1,0 +1,338 @@
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+        var $container = $('div#personnel_affectationsuccessive');
+
+        // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+        var index = $container.find(':input').length;
+
+        // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+        $('#add_affect').click(function(e) {
+            addAffect($container);
+
+            e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+            return false;
+        });
+
+        // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+/*        if (index === 0) {
+            addAffect($container);
+            // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+            addDeleteLink($prototype);
+        } else {*/
+            // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+            $container.children('div').each(function() {
+                addDeleteLink($(this));
+                index++;
+            });
+  /*      }
+*/
+        // La fonction qui ajoute un formulaire Affectation
+        function addAffect($container) {
+            // Dans le contenu de l'attribut « data-prototype », on remplace :
+            // - le texte "__name__label__" qu'il contient par le label du champ
+            // - le texte "__name__" qu'il contient par le numéro du champ
+            var template = $container.attr('data-prototype')
+                .replace(/__name__label__/g,' Affectation n° ' + (index+1))
+                .replace(/__name__/g,     index)
+            ;
+
+            // On crée un objet jquery qui contient ce template
+            var $prototype = $(template);
+
+            // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+            addDeleteLink($prototype);
+
+            // On ajoute le prototype modifié à la fin de la balise <div>
+            $container.append($prototype);
+
+            // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+            index++;
+        }
+
+        // La fonction qui ajoute un lien de suppression d'une catégorie
+        function addDeleteLink($prototype) {
+            // Création du lien affectation
+            var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+
+            // Ajout du lien
+            $prototype.append($deleteLink);
+
+            // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
+            $deleteLink.click(function(e) {
+                $prototype.remove();
+
+                e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                return false;
+            });
+        }
+
+        /* ---------------------- */
+
+        // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+        var $containerE = $('div#personnel_enfant');
+
+        // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+        var indexE = $containerE.find(':input').length;
+
+        // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+        $('#add_enfant').click(function(e) {
+            addEnfant($containerE);
+
+            e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+            return false;
+        });
+
+        // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+        /*if (indexE === 0) {
+            addEnfant($containerE);
+        } else {*/
+            // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+            $containerE.children('div').each(function() {
+                addDeleteLink($(this));
+            });
+        //}
+
+        // La fonction qui ajoute un formulaire Affectation
+        function addEnfant($containerE) {
+            // Dans le contenu de l'attribut « data-prototype », on remplace :
+            // - le texte "__name__label__" qu'il contient par le label du champ
+            // - le texte "__name__" qu'il contient par le numéro du champ
+            var templateE = $containerE.attr('data-prototype')
+                .replace(/__name__label__/g,' Enfant n°' + (index+1))
+                .replace(/__name__/g,      index)
+            ;
+
+            // On crée un objet jquery qui contient ce template
+            var $prototype = $(templateE);
+
+            // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+            addDeleteLink($prototype);
+
+            // On ajoute le prototype modifié à la fin de la balise <div>
+            $containerE.append($prototype);
+
+            // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+            indexE++;
+        }
+
+        // La fonction qui ajoute un lien de suppression d'une catégorie
+        function addDeleteLink($prototype) {
+            // Création du lien affectation$prototype.remove()
+            var $deleteLink = $('<a href="#" id="delete_enfant" class="btn btn-danger">Supprimer</a>');
+
+            // Ajout du lien
+            $prototype.append($deleteLink);
+
+            // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
+            $deleteLink.click(function(e) {
+                $prototype.remove();
+
+                e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                return false;
+            });
+        }
+        /*------------------------*/
+
+        // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+        var $containerEcole = $('div#personnel_ecole');
+
+        // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+        var indexEcole = $containerEcole.find(':input').length;
+
+        // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+        $('#add_ecole').click(function(e) {
+            addEcole($containerEcole);
+
+            e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+            return false;
+        });
+
+        // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+        /*if (indexE === 0) {
+            addEnfant($containerE);
+        } else {*/
+        // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+        $containerEcole.children('div').each(function() {
+            addDeleteLink($(this));
+        });
+        //}
+
+        // La fonction qui ajoute un formulaire Affectation
+        function addEcole($containerEcole) {
+            // Dans le contenu de l'attribut « data-prototype », on remplace :
+            // - le texte "__name__label__" qu'il contient par le label du champ
+            // - le texte "__name__" qu'il contient par le numéro du champ
+            var templateEcole = $containerEcole.attr('data-prototype')
+                .replace(/__name__label__/g,' Ecole n°' + (index+1))
+                .replace(/__name__/g,      index)
+            ;
+
+            // On crée un objet jquery qui contient ce template
+            var $prototype = $(templateEcole);
+
+            // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+            addDeleteLink($prototype);
+
+            // On ajoute le prototype modifié à la fin de la balise <div>
+            $containerEcole.append($prototype);
+
+            // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+            indexEcole++;
+        }
+
+        // La fonction qui ajoute un lien de suppression d'une catégorie
+        function addDeleteLink($prototype) {
+            // Création du lien affectation$prototype.remove()
+            var $deleteLink = $('<a href="#" id="delete_ecole" class="btn btn-danger">Supprimer</a>');
+
+            // Ajout du lien
+            $prototype.append($deleteLink);
+
+            // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
+            $deleteLink.click(function(e) {
+                $prototype.remove();
+
+                e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                return false;
+            });
+        }
+
+        /*Avancement*/
+
+        // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+        var $containerAvancement = $('div#personnel_avancement');
+
+        // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+        var indexAvancement = $containerAvancement.find(':input').length;
+
+        // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+        $('#add_avancement').click(function(e) {
+            addAvancement($containerAvancement);
+
+            e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+            return false;
+        });
+
+        // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+        /*if (indexE === 0) {
+            addEnfant($containerE);
+        } else {*/
+        // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+        $containerAvancement.children('div').each(function() {
+            addDeleteLink($(this));
+        });
+        //}
+
+        // La fonction qui ajoute un formulaire Affectation
+        function addAvancement($containerAvancement) {
+            // Dans le contenu de l'attribut « data-prototype », on remplace :
+            // - le texte "__name__label__" qu'il contient par le label du champ
+            // - le texte "__name__" qu'il contient par le numéro du champ
+            var templateAvancement = $containerAvancement.attr('data-prototype')
+                .replace(/__name__label__/g,' Avancement n°' + (index+1))
+                .replace(/__name__/g,      index)
+            ;
+
+            // On crée un objet jquery qui contient ce template
+            var $prototype = $(templateAvancement);
+
+            // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+            addDeleteLink($prototype);
+
+            // On ajoute le prototype modifié à la fin de la balise <div>
+            $containerAvancement.append($prototype);
+
+            // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+            indexAvancement++;
+        }
+
+        // La fonction qui ajoute un lien de suppression d'une catégorie
+        function addDeleteLink($prototype) {
+            // Création du lien affectation$prototype.remove()
+            var $deleteLink = $('<a href="#" id="delete_avancement" class="btn btn-danger">Supprimer</a>');
+
+            // Ajout du lien
+            $prototype.append($deleteLink);
+
+            // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
+            $deleteLink.click(function(e) {
+                $prototype.remove();
+
+                e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                return false;
+            });
+        }
+
+
+        /*Décoration*/
+
+        // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+        var $containerDecoration = $('div#personnel_decoration');
+
+        // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+        var indexDecoration= $containerAvancement.find(':input').length;
+
+        // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+        $('#add_decoration').click(function(e) {
+            addDecoration($containerDecoration);
+
+            e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+            return false;
+        });
+
+        // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+        /*if (indexE === 0) {
+            addEnfant($containerE);
+        } else {*/
+        // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+        $containerDecoration.children('div').each(function() {
+            addDeleteLink($(this));
+        });
+        //}
+
+        // La fonction qui ajoute un formulaire Affectation
+        function addDecoration($containerDecoration) {
+            // Dans le contenu de l'attribut « data-prototype », on remplace :
+            // - le texte "__name__label__" qu'il contient par le label du champ
+            // - le texte "__name__" qu'il contient par le numéro du champ
+            var templateDecoration= $containerDecoration.attr('data-prototype')
+                .replace(/__name__label__/g,' Decoration n°' + (index+1))
+                .replace(/__name__/g,      index)
+            ;
+
+            // On crée un objet jquery qui contient ce template
+            var $prototype = $(templateDecoration);
+
+            // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+            addDeleteLink($prototype);
+
+            // On ajoute le prototype modifié à la fin de la balise <div>
+            $containerDecoration.append($prototype);
+
+            // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+            indexDecoration++;
+        }
+
+        // La fonction qui ajoute un lien de suppression d'une catégorie
+        function addDeleteLink($prototype) {
+            // Création du lien affectation$prototype.remove()
+            var $deleteLink = $('<a href="#" id="delete_decoration" class="btn btn-danger">Supprimer</a>');
+
+            // Ajout du lien
+            $prototype.append($deleteLink);
+
+            // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
+            $deleteLink.click(function(e) {
+                $prototype.remove();
+
+                e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                return false;
+            });
+        }
+
+
+
+    });
+</script>

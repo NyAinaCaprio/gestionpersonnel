@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categorie index{% endblock %}
+
+{% block body %}
+        <div class="container mt-4">
+            <h1>Categorie index</h1>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Categorie</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for categorie in categories %}
+                    <tr>
+                        <td>{{ categorie.id }}</td>
+                        <td>{{ categorie.categorie }}</td>
+                        <td>
+                            <a href="{{ path('categorie_show', {'id': categorie.id}) }}">Voir</a>
+                            <a href="{{ path('categorie_edit', {'id': categorie.id}) }}">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">Pas d"enregistrement</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{{ path('categorie_new') }}" class="btn btn-success">Création</a>
+        </div>
+{% endblock %}

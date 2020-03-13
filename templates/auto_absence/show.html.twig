@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AutoAbsence{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>AutoAbsence</h1>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ auto_absence.id }}</td>
+            </tr>
+            <tr>
+                <th>Motif</th>
+                <td>{{ auto_absence.motif }}</td>
+            </tr>
+            <tr>
+                <th>SeRendreA</th>
+                <td>{{ auto_absence.seRendreA }}</td>
+            </tr>
+            <tr>
+                <th>HeureDepart</th>
+                <td>{{ auto_absence.heureDepart ? auto_absence.heureDepart|date('H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>HeureArrive</th>
+                <td>{{ auto_absence.heureArrive ? auto_absence.heureArrive|date('H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ auto_absence.date ? auto_absence.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('auto_absence_index') }}">back to list</a>
+
+        <a href="{{ path('auto_absence_edit', {'id': auto_absence.id}) }}">edit</a>
+
+        {{ include('auto_absence/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

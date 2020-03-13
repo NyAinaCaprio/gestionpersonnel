@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Direction index{% endblock %}
+
+{% block body %}
+        <div class="container mt-4">
+            <h1>Direction index</h1>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Direction</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for direction in directions %}
+                    <tr>
+                        <td>{{ direction.id }}</td>
+                        <td>{{ direction.name }}</td>
+                        <td>
+                            <a href="{{ path('direction_show', {'id': direction.id}) }}">Voir</a>
+                            <a href="{{ path('direction_edit', {'id': direction.id}) }}">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">Pas d'enregistrement</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="text-left"><a class="btn btn-success" href="{{ path('direction_new') }}">Nouvelle Direction</a></div>
+        </div>
+{% endblock %}

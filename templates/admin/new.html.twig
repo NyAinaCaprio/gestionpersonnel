@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %} {{ parent() }} Création nouveau personnel {% endblock %}
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2>Créer un nouveau personnel </h2>
+        {{ include ('admin/_form.html.twig') }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

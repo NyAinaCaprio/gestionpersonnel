@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Detachement{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Create new Detachement</h1>
+
+    {{ include('detachement/_form.html.twig') }}
+
+    <a href="{{ path('detachement_index') }}">back to list</a>
+</div>
+{% endblock %}

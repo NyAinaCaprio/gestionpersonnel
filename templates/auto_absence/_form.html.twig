@@ -1,0 +1,23 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-4"> {{ form_row(form.etsouservice) }} </div>
+        <div class="col-md-4"> {{ form_row(form.seRendreA) }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8"> {{ form_row(form.motif) }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.heureDepart) }}</div>
+        <div class="col-md-4">{{ form_row(form.heureArrive) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.personnel) }}</div>
+        <div class="col-md-4">{{ form_row(form.date) }}</div>
+    </div>
+        {{ form_widget(form) }}
+
+
+        <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

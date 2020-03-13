@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Direction{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Création</h1>
+
+        {{ include('direction/_form.html.twig') }}
+        <div class="text-right"><a href="{{ path('direction_index') }}">Retour</a></div>
+    </div>
+{% endblock %}

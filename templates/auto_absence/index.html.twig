@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Autorisation d'Absence{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Autorisation d'absence</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+
+                <th>Nom & Prénoms</th>
+                <th>Service ou Etablissement</th>
+                <th>Motif</th>
+                <th>SeRendreA</th>
+                <th>HeureDepart</th>
+                <th>HeureArrive</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for auto_absence in auto_absences %}
+                <tr>
+
+                    <td>{{ auto_absence.personnel.nomprenom }}</td>
+                    <td>{{ auto_absence.etsouservice.etsouservice }}</td>
+                    <td>{{ auto_absence.motif }}</td>
+                    <td>{{ auto_absence.seRendreA }}</td>
+                    <td>{{ auto_absence.heureDepart ? auto_absence.heureDepart|date('H:i:s') : '' }}</td>
+                    <td>{{ auto_absence.heureArrive ? auto_absence.heureArrive|date('H:i:s') : '' }}</td>
+                    <td>{{ auto_absence.date ? auto_absence.date|date('Y-m-d') : '' }}</td>
+                    <td>
+                        <a href="{{ path('auto_absence_show', {'id': auto_absence.id}) }}">Consulter</a>
+                        <a href="{{ path('auto_absence_edit', {'id': auto_absence.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Pas d'enregistrement </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {{ knp_pagination_render(auto_absences) }}
+        {#<a href="{{ path('auto_absence_new') }}">Create new</a>#}
+    </div>
+{% endblock %}

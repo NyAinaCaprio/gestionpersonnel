@@ -1,0 +1,161 @@
+{{ form_start(form) }}
+
+<div class="row">
+    <div class="col-md-2"> {{ form_row(form.etsouservice) }}</div>
+    <div class="col-md-2"> {{ form_row(form.categorie) }}</div>
+    <div class="col-md-2"> {{ form_row(form.imageFile) }}</div>
+</div>
+<div class="row">
+    <div class="col-md-3"> {{ form_row(form.nomprenom) }}</div>
+    <div class="col-md-3"> {{ form_row(form.sexe) }}</div>
+    <div class="col-md-3"> {{ form_row(form.datenaisse) }}</div>
+    <div class="col-md-3"> {{ form_row(form.lieu) }}</div>
+
+</div>
+<div class="row">
+    <div class="col-md-3">{{ form_row(form.cin) }}</div>
+    <div class="col-md-3">{{ form_row(form.delivrele) }}</div>
+    <div class="col-md-3">{{ form_row(form.a) }}</div>
+    <div class="col-md-3">{{ form_row(form.adresseactuelle) }}</div>
+
+</div>
+<div class="row">
+    <div class="col-md-3">{{ form_row(form.adresseMail) }}</div>
+    <div class="col-md-3">{{ form_row(form.situationmatrimoniale) }}</div>
+    <div class="col-md-3">{{ form_row(form.groupesanguin) }}</div>
+    <div class="col-md-3">{{ form_row(form.groupeethnique) }}</div>
+</div>
+<div class="row">
+    <div class="col-md-3">{{ form_row(form.religion) }}</div>
+    <div class="col-md-3">{{ form_row(form.telephone) }}</div>
+</div>
+<hr>
+<div class="well">
+    <div class="text-primary">ETAT DE SERVICE</div>
+        <div class="row">
+            <div class="col-md-3">{{ form_row(form.affectionactuelle) }}</div>
+            <div class="col-md-3">{{ form_row(form.direction) }}</div>
+            <div class="col-md-3"> {{ form_row(form.detachement) }}</div>
+            <div class="col-md-3">{{ form_row(form.matricule) }}</div>
+        </div>
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.fonction) }}</div>
+        <div class="col-md-4">{{ form_row(form.daterecrute) }}</div>
+        <div class="col-md-4">{{ form_row(form.indice) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.interruptiondu) }}</div>
+        <div class="col-md-4">{{ form_row(form.au) }}</div>
+        <div class="col-md-4">{{ form_row(form.sortantecole) }}</div>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <div class="col-md-3">{{ form_row(form.nomconjoint) }}</div>
+    <div class="col-md-3">{{ form_row(form.datemariage) }}</div>
+    <div class="col-md-3">{{ form_row(form.dateNaissConj) }}</div>
+    <div class="col-md-3">{{ form_row(form.lieuNaissConj) }}</div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">{{ form_row(form.bureautique) }}</div>
+    <div class="col-md-3">{{ form_row(form.autres) }}</div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">{{ form_row(form.francais) }}</div>
+    <div class="col-md-3">{{ form_row(form.anglais) }}</div>
+    <div class="col-md-3">{{ form_row(form.autresLangue) }}</div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">{{ form_row(form.NumPermis) }}</div>
+    <div class="col-md-3">{{ form_row(form.permisDelivrele) }}</div>
+    <div class="col-md-3">{{ form_row(form.lieuDelivrance) }}</div>
+    <div class="col-md-3">{{ form_row(form.permisCategorie) }}</div>
+    <div class="col-md-3">{{ form_row(form.autresPermis) }}</div>
+
+</div>
+<div>
+    <div class="col-md-3">{{ form_row(form.rupture) }}</div>
+</div>
+
+<hr>
+{# Le formulaire reste globalement le même,
+   On ne rajoute que le champ catégorie et le lien pour en ajouter #}
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-affectation" role="tab" aria-controls="pills-home" aria-selected="true">Affectations Successives</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-enfant" role="tab" aria-controls="pills-profile" aria-selected="false">Enfants</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-ecole" role="tab" aria-controls="pills-contact" aria-selected="false">Ecole</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-avancement" role="tab" aria-controls="pills-contact" aria-selected="false">Avancement</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-decoration" role="tab" aria-controls="pills-contact" aria-selected="false">Decoration</a>
+    </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active col-md-8" id="pills-affectation" role="tabpanel" aria-labelledby="pills-home-tab">
+        {{ form_row(form.affectationsuccessive) }}
+        <div class="text-right">
+            <a href="#" id="add_affect" class="btn btn-success">Ajouter</a>
+        </div>
+    </div>
+    <div class="tab-pane fade col-md-8" id="pills-enfant" role="tabpanel" aria-labelledby="pills-profile-tab">
+        {{ form_row(form.enfant) }}
+        <div class="text-right">
+            <a href="#" id="add_enfant" class="btn btn-success">Ajouter</a>
+        </div>
+    </div>
+    <div class="tab-pane fade col-md-8" id="pills-ecole" role="tabpanel" aria-labelledby="pills-contact-tab">
+        {{ form_row(form.ecole) }}
+        <div class="text-right">
+            <a href="#" id="add_ecole" class="btn btn-success">Ajouter</a>
+        </div>
+    </div>
+    <div class="tab-pane fade col-md-8" id="pills-avancement" role="tabpanel" aria-labelledby="pills-contact-tab">
+        {{ form_row(form.avancement) }}
+        <div class="text-right">
+            <a href="#" id="add_avancement" class="btn btn-success">Ajouter</a>
+        </div>
+    </div>
+    <div class="tab-pane fade col-md-8" id="pills-decoration" role="tabpanel" aria-labelledby="pills-contact-tab">
+        {{ form_row(form.decoration) }}
+        <div class="text-right">
+            <a href="#" id="add_decoration" class="btn btn-success">Ajouter</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{# Le formulaire reste globalement le même,
+   On ne rajoute que le champ catégorie et le lien pour en ajouter #}
+
+
+{# On charge la bibliothèque jQuery. Ici, je la prends depuis le CDN google
+   mais si vous l'avez en local, changez simplement l'adresse. #}
+<script src="{{ asset('/js/jquery-3.4.1.js') }}"></script>
+{#<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery-3.4.1.js"></script>#}
+{# Voici le script en question : #}
+
+{% include ('admin/_script.html.twig') %}
+{{ form_rest(form) }}
+<hr>
+<div class="row">
+    <div class="form-group">
+        <button class="btn btn-primary">{{ button | default('Enregistrer') }}</button>
+    </div>
+</div>
+
+{{ form_end(form) }}
+

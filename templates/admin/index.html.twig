@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+{% block title %} {{ parent() }} Accueil {% endblock %}
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+
+	<div class="jumbotron text-center">
+	<div class="container">
+		<h1> Liste personnel de la Dia </h1>
+        {{ form_start(form) }}
+    {% include'pages/_formSearch.html.twig' %}
+        {{ form_end(form) }}
+	</div>
+	</div>
+    <div class="container mt-4">
+
+
+	<div class="text-right ">
+		<ul class="nav nav-tabs">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Configuration</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="{{ path('etsou_service_index') }}">Service ou etablissement</a>
+					<a class="dropdown-item" href="{{ path('categorie_index') }}">Catégorie</a>
+					<a class="dropdown-item" href="{{ path('detachement_index') }}">Détachement</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="{{ path('direction_index') }}">Direction</a>
+				</div>
+			</li>
+		</ul>
+		<a href="{{ path('personnel.new') }}" class="btn btn-success">Créer nouveau personnel</a>
+	</div>
+		<div class="text-center">
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">
+					{{ message }}
+				</div>
+			{% endfor %}
+		</div>
+        <h1>Liste personnel</h1>
+        <table class="table table-responsive-xl">
+        	<tr>
+	        	<td>Nom et Prénom(s) </td>
+	        	<td>Direction </td>
+	        	<td>Service/Etablissement </td>
+	        	<td>Détachement</td>
+	        	<td>Catégorie </td>
+	        	<td>Action </td>
+	        </tr>
+			{% for personnel in personnels %}
+				<tr>
+					<td>{{ personnel.nomprenom }} </td>
+					<td>{% if  personnel.direction.name is defined %} {{ personnel.direction.name}} {% endif %} </td>
+					<td> {% if  personnel.etsouservice.etsouservice is defined %} {{ personnel.etsouservice.etsouservice }} {% endif %} </td>
+					<td> {% if  personnel.detachement.name is defined %} {{ personnel.detachement.name }} {% endif %} </td>
+					<td>{{ personnel.categorie.categorie }} </td>
+					<td>
+						<form action="" method="post">
+							<a href="{{ path('personnel.edit', {'id': personnel.id, 'slug': personnel.slug}) }}" class="btn btn-primary">Modifier</a>
+
+							<a href="{{ path('auto_absence_new', {'id': personnel.id, 'slug': personnel.slug }) }}" class="btn btn-success" style="display: inline-block">Auto Absence</a>
+
+
+						</form>
+					</td>
+				</tr>
+            {% endfor %}
+    	</table>
+        {{ knp_pagination_render(personnels) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit EtsouService{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Edit EtsouService</h1>
+
+        {{ include('etsou_service/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('etsou_service_index') }}" class="btn btn-info">Retour</a>
+
+        {{ include('etsou_service/_delete_form.html.twig') }}
+    </div>
+{% endblock %}
