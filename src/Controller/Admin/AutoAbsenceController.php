@@ -7,6 +7,7 @@ use App\Entity\EtsouService;
 use App\Entity\Personnel;
 use App\Form\AutoAbsenceType;
 use App\Repository\AutoAbsenceRepository;
+use App\Repository\EtsouServiceRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,7 @@ class AutoAbsenceController extends AbstractController
      */
     private $repository;
 
+
     public function __construct(PaginatorInterface $paginator, AutoAbsenceRepository $repository )
     {
 
@@ -39,14 +41,16 @@ class AutoAbsenceController extends AbstractController
      */
     public function index(Request $request): Response
     {
+
         $autoabsence = $this->paginator->paginate(
             $this->repository->findAllAbsenceQuery(), /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            20 /*limit per page*/
+            12 /*limit per page*/
         );
 
         return $this->render('auto_absence/index.html.twig', [
             'auto_absences' => $autoabsence,
+
         ]);
     }
 
@@ -55,7 +59,6 @@ class AutoAbsenceController extends AbstractController
      */
     public function new(Personnel $personnel,  Request $request, String $slug): Response
     {
-
         if (!$personnel->getEtsouservice()){
             $this->addFlash('success', "Personnel hors du service  !");
             return $this->redirectToRoute('personnel.index');
@@ -80,8 +83,7 @@ class AutoAbsenceController extends AbstractController
             'auto_absence' => $autoAbsence,
             'personnel' => $personnel,
             'form' => $form->createView(),
-
-        ]);
+            ]);
     }
 
     /**
@@ -91,7 +93,7 @@ class AutoAbsenceController extends AbstractController
     {
         return $this->render('auto_absence/show.html.twig', [
             'auto_absence' => $autoAbsence,
-        ]);
+            ]);
     }
 
     /**
@@ -111,6 +113,7 @@ class AutoAbsenceController extends AbstractController
         return $this->render('auto_absence/edit.html.twig', [
             'auto_absence' => $autoAbsence,
             'form' => $form->createView(),
+
         ]);
     }
 

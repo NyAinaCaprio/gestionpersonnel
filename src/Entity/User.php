@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("username")
  */
 class User implements UserInterface, \Serializable
 {
@@ -14,22 +17,39 @@ class User implements UserInterface, \Serializable
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $username;
 
     /**
+     *
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit âtre 8 caracteres ou plus ! ")
+     * @Assert\EqualTo(propertyPath="password_confirme", message="Mot de passe incorrecte")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\EqualTo(propertyPath="password", message="Mot de passe incorrecte")
      */
+
+    public $password_confirme;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Email
+     * @Assert\NotBlank()
+     *
+     */
+
     private $mail;
 
     public function getId(): ?int
@@ -91,9 +111,7 @@ class User implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return [
-            'ROLE_USER'
-        ];
+        return ['ROLE_ADMIN'];
     }
 
     /**

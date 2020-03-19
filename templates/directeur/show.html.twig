@@ -1,0 +1,44 @@
+{% extends'base.html.twig' %}
+{% block title %}Directeur{% endblock %}
+
+{% block body %}
+    <h1>Directeur</h1>
+
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ directeur.id }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ directeur.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Grade</th>
+                    <td>{{ directeur.grade }}</td>
+                </tr>
+                <tr>
+                    <th>Periode</th>
+                    <td>{{ directeur.periode }}</td>
+                </tr>
+                <tr>
+                    <th>Filename</th>
+                    <td>{{ directeur.filename }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <img src="{{ vich_uploader_asset(directeur, 'imageFile') }}" alt="card-img-top" style="width: 100px; height: auto">
+        </div>
+    </div>
+
+    <a href="{{ path('directeur_index') }}">back to list</a>
+
+    <a href="{{ path('directeur_edit', {'id': directeur.id}) }}">edit</a>
+
+    {{ include('directeur/_delete_form.html.twig') }}
+{% endblock %}

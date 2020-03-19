@@ -6,7 +6,9 @@ use App\Entity\Personnel;
 use App\Entity\PersonnelSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use phpDocumentor\Reflection\Types\Integer;
@@ -19,9 +21,20 @@ use phpDocumentor\Reflection\Types\Integer;
  */
 class PersonnelRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+    /**
+     * @var CategorieRepository
+     */
+    private $repository;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em, CategorieRepository $repository)
     {
         parent::__construct($registry, Personnel::class);
+        $this->em = $em;
+        $this->repository = $repository;
     }
     /**
      * @param Personnel[]
@@ -96,7 +109,7 @@ class PersonnelRepository extends ServiceEntityRepository
     public function findOneById($value): ?Personnel
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.id = :val')
+            ->where('p.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
@@ -110,10 +123,83 @@ class PersonnelRepository extends ServiceEntityRepository
     public function findVisibleQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.rupture = :val')
+            ->where('p.rupture = :val')
             ->setParameter('val', "En activite")
             ->orderBy('p.id', 'DESC')
             ;
     }
-    
+
+    public function sommepersonnel()
+    {
+        return $this->findVisibleQuery()
+            ->select('COUNT(p)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+    }
+
+    public function sommeECD()
+    {
+        return $this->findVisibleQuery()
+            ->andWhere('p.categorie = 2')
+            ->select('COUNT(p)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+    }
+
+    public function sommeEFA()
+    {
+        return $this->findVisibleQuery()
+            ->andWhere('p.categorie = 3')
+            ->select('COUNT(p)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function sommeFONCT()
+    {
+        return $this->findVisibleQuery()
+            ->andWhere('p.categorie = 4')
+            ->select('COUNT(p)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
+    /*   public function sommeParCategorie($var)
+       {
+           return $this->createQueryBuilder('p')
+               ->Where('p.categorie = :val')
+               ->setParameter('val', $var)
+               ->select('COUNT(p)')
+               ->getQuery()
+               ->getResult();
+       }
+
+
+       public function calculeParCategorie()
+       {
+
+           $query = $this->repository->findAll();
+
+           $total = $this->sommepersonnel();
+
+           foreach ($query as $key => $value) {
+
+               $nb = $this->sommeParCategorie($value->getId()) ;
+               $res[] = [
+                   'categorie'=>$value->getCategorie(),
+                   'nombre'=>$nb,
+                   'total' => $total
+               ];
+
+           }
+
+
+               return $res;
+
+       }*/
+
+
 }

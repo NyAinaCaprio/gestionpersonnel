@@ -3,6 +3,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\PersonnelSearch;
 use App\Form\PersonnelSearchType;
+use App\Repository\EtsouServiceRepository;
 use phpDocumentor\Reflection\Types\Nullable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +26,8 @@ class PersonnelController extends AbstractController
      */
     private $repository;
 
-    public function __construct(EntityManagerInterface $em, PersonnelRepository $repository )
+
+    public function __construct( EntityManagerInterface $em, PersonnelRepository $repository)
     {
         $this->em = $em;
         $this->repository = $repository;
@@ -36,6 +38,11 @@ class PersonnelController extends AbstractController
      */
     public function index(PaginatorInterface $paginator, Request $request):Response
     {
+        $sommeECD = $this->repository->sommeECD();
+        $sommeEFA = $this->repository->sommeEFA();
+        $sommeFONCT = $this->repository->sommeFONCT();
+
+        $nombrePers = $this->repository->sommepersonnel();
 
         $search = new PersonnelSearch();
         $form  = $this->createForm(PersonnelSearchType::class, $search);
@@ -50,7 +57,11 @@ class PersonnelController extends AbstractController
         return $this->render('admin/index.html.twig', [
                 'personnels' => $personnel,
             'form' => $form->createView(),
-            ]);
+            'nombrePersonnel' => $nombrePers,
+            'sommeECD' => $sommeECD,
+            'sommeEFA' => $sommeEFA,
+            'sommeFONCT' => $sommeFONCT,
+        ]);
 
     }
 
@@ -88,8 +99,8 @@ class PersonnelController extends AbstractController
         }
 
         return   $this->render('admin/new.html.twig',[
-            'form' => $form->createView()
-        ]);
+            'form' => $form->createView(),
+            ]);
 
     }
 
@@ -100,7 +111,6 @@ class PersonnelController extends AbstractController
      */
      public function edit(Personnel $personnel, String $slug, Request $request):Response
      {
-
          $personnel = $this->repository->findOneById($personnel);
          $form = $this->createForm(PersonnelType::class, $personnel);
          $form->handleRequest($request);
@@ -115,7 +125,7 @@ class PersonnelController extends AbstractController
 
          return $this->render("admin/edit.html.twig", [
              'personnel' => $personnel,
-             'form' => $form->createView()
+             'form' => $form->createView(),
          ]);
 
 

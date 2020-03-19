@@ -1,0 +1,38 @@
+{% extends'base.html.twig' %}
+{% block title %}Directeur index{% endblock %}
+
+{% block body %}
+    <h1>Directeur index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Grade</th>
+                <th>Periode</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for directeur in directeurs %}
+            <tr>
+                <td>{{ directeur.id }}</td>
+                <td>{{ directeur.nom }}</td>
+                <td>{{ directeur.grade }}</td>
+                <td>{{ directeur.periode }}</td>
+                <td>
+                    <a href="{{ path('directeur_show', {'id': directeur.id}) }}">show</a>
+                    <a href="{{ path('directeur_edit', {'id': directeur.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('directeur_new') }}">Create new</a>
+{% endblock %}

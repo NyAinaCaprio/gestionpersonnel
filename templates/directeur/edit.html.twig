@@ -1,0 +1,13 @@
+{% extends'base.html.twig' %}
+
+{% block title %}Edit Directeur{% endblock %}
+
+{% block body %}
+    <h1>Edit Directeur</h1>
+
+    {{ include('directeur/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('directeur_index') }}">back to list</a>
+
+    {{ include('directeur/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ parent() }} Authentification !{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+{{ form_start(form) }}
+    <div class="example-wrapper">
+        <div class="text-center">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-info">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        <h1>Inscription </h1>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Nom d'utilisateur</label>
+                <div class="col">{{ form_row(form.username) }}</div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Adresse mail</label>
+                <div class="col">{{ form_row(form.mail) }}</div>
+            </div>
+            <div class="form-servicesgroup">
+                <label for="exampleInputPassword1">Mot de passe</label>
+                <div class="col">{{ form_row(form.password) }}</div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Confirmaition Mot de passe</label>
+                <div class="col">{{ form_row(form.password_confirme) }}</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+
+        {#
+        <ul>
+            <li>Your controller at <code><a href="{{ 'D:/Wamp64/www/DIA_1.2/src/Controller/SecurityController.php'|file_link(0) }}">src/Controller/SecurityController.php</a></code></li>
+            <li>Your template at <code><a href="{{ 'D:/Wamp64/www/DIA_1.2/templates/security/accueil.html.twig'|file_link(0) }}">templates/security/accueil.html.twig</a></code></li>
+        </ul>#}
+    </div>
+{{ form_rest(form) }}
+
+{{ form_end(form) }}
+{% endblock %}

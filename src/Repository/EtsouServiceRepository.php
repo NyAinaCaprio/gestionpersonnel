@@ -19,6 +19,33 @@ class EtsouServiceRepository extends ServiceEntityRepository
         parent::__construct($registry, EtsouService::class);
     }
 
+
+    /**
+     * @param $value
+     * @return mixed
+     * @return EtsouService[] Returns an array of EtsouService objects
+     */
+    public function findService()
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.obs = :service')
+            ->setParameter('service', "SERVICE")
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findEts()
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.obs = :ets')
+            ->setParameter('ets', "ETABLISSEMENT")
+            ->getQuery()
+            ->getResult()
+            ;
+
+    }
+
     // /**
     //  * @return EtsouService[] Returns an array of EtsouService objects
     //  */

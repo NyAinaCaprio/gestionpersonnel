@@ -1,58 +1,65 @@
 {% extends 'base.html.twig' %}
 {% block title %} {{ parent() }} Page d'accueil {% endblock %}
-{% block stylesheets %}
-
-{% endblock %}
+{% block stylesheets %}{% endblock %}
 
 {% block body %}
-
-    <div class="jumbotron text-center">
-        <div class="container">
-            <h1> Liste personnel de la Dia </h1>
-            {{ form_start(form) }}
-
-        {% include 'pages/_formSearch.html.twig' %}
-
-            {{ form_end(form) }}
-        </div>
-    </div>
-
-    <div class="container">
-        {% if recherche == "" %}
-            <h5>les dérniers à jour </h5>
-        {% else %}
-            <h5>Résultat du recherche </h5>
-        {% endif %}
-        <div class="row flex">
-            {% for personnel in personnels %}
-                <div class="col-3">
-                    <div class="card mb-4">
-                        {% if personnel.filename %}
-                            <img src="{{ vich_uploader_asset(personnel, 'imageFile') }}"  class="card-img-top" alt="" style="width: 100%; height: auto">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <h5 class="card-title"> <a href="{{ path('personnel.show', {'id': personnel.id, 'slug': personnel.slug}) }}">{{ personnel.nomprenom }}</a></h5>
-                            </h5>
-                            <p class="card-text"> <h4>{% if  personnel.etsouservice.etsouservice  is defined %} {{ personnel.etsouservice.etsouservice }} {% endif %}</h4> </p>
-                            <div class="text-primary">{{ personnel.categorie.categorie}}</div>
-                            <div class="text-success"> <h5>{% if  personnel.detachement.name is defined %} {{ personnel.detachement.name }} {% endif %}</h5> </div>
-                            <div class="text-primary">{% if personnel.direction.name is defined %} {{ personnel.direction.name }} {% endif %}</div>
-                        </div>
-                    </div>
+    <div class="row flex">
+    {% for directeur  in directeurs %}
+        <div class="col-3">
+            <div class="card mb-4" style="width: 18rem;">
+                <img src="{{ vich_uploader_asset(directeur, 'imageFile') }}" alt="card-img-top" style="width: auto; height: 250px">
+                <div class="card-body">
+                    <h5 class="card-title">{{ directeur.grade }} {{ directeur.nom }}</h5>
+                    <p class="card-text">{{ directeur.periode }}</p>
+                    <a href="#" class="btn btn-primary">Consulter</a>
                 </div>
-            {% endfor %}
-
-
+            </div>
         </div>
-        {{ knp_pagination_render(personnels) }}
+    {% endfor %}
     </div>
 
 
-{% endblock %}
-{% block javascripts %}
+    <div class="media">
+        <div class="media-body">
+            <h5 class="mt-0">Historique de la DIA</h5>
+            <p>
+                La mission de l'Intendance est de procurer au combattant une eff icacité maximale en contribution
+                à son bien être, tant matériel que moral et celui de sa famille. En tant que direction d'un service
+                de soutien, elle est tenue de satisfaire les besoins des armées en fonction des ressources et des moyens
+                qui lui sont consentis ainsi que des priorités et échéances fixées par le commandement. Le plus grand
+                changement concerne la scission de l'Administration militaire, jusque le unique, en Direction de l'Intendance
+                pour la partie finance, administration de soutien de l'homme et en Direction des Matériels Techniques pour
+                le soutien en maintenance. Cette restructuration de l'administration militaire en 1988 entraine des modifications
+                importantes dans la chaine logistique de soutien Intendance: Etablissement Militaire de l'Industrie de Vêtement
+                (EMIV) ainsi que l'Etablissement Militaire de l'Industrie de la Chaussure (EMIC), L'Etablissement de l’Imprimerie
+                de l'Armée (EIA) sont affectes à la DMT pour la subordination, alors que l'habillement fait partie normalement de
+                la chaine soutien de l'homme. En 1994, la Direction de l'Intendance de l'Armée (DIA), son appellation actuelle,
+                remplace la Direction de l'Intendance de l'Armée Populaire. Le décret de modification ramène également les établissements
+                habillement et chaussures dans les girons de l'Intendance. Il à fallu attendre ainsi dix ans plus tard, l’année 2004,
+                avant que l'application de cette réintégration soit réalisée. La DIA assume actuellement le rôle et les attributions
+                d'un service de l'Administration générale mais aussi logistique de l'armée.
+            </p>
+            <p class="mb-0"></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mt-4">
+            <div class="list-group-item list-group-item-warning">
+                Google map - DIA/CAPSAT Soanierana
+            </div>
+            <div class="col-md-6 card-body mt-4">
+                <base target="">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2695.158064852258!2d47.52372718653123!3d-18.937708513181054!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x21f07e7f22278151%3A0x9bf8193928e7eab6!2sCAPSAT+Madagascar!5e1!3m2!1sfr!2smg!4v1554899491631!5m2!1sfr!2smg" width="600" height="450" frameborder="0" style="border:0" allowfullscreen="">
+                </iframe>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
+
+
+{% block javascripts %}{% endblock %}
 
 
 

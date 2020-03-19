@@ -1,0 +1,41 @@
+ <div class="jumbotron text-center">
+        <div class="container">
+            <h1> Liste personnel de la Dia </h1>
+            {{ form_start(form) }}
+
+        {% include 'pages/_formSearch.html.twig' %}
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <div class="container">
+        {% if recherche == "" %}
+            <h5>les dérniers à jour </h5>
+        {% else %}
+            <h5>Résultat du recherche </h5>
+        {% endif %}
+        <div class="row flex">
+            {% for personnel in personnels %}
+                <div class="col-3">
+                    <div class="card mb-4">
+                        {% if personnel.filename %}
+                            <img src="{{ vich_uploader_asset(personnel, 'imageFile') }}"  class="card-img-top" alt="" style="width: 100%; height: auto">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <h5 class="card-title"> <a href="{{ path('personnel.show', {'id': personnel.id, 'slug': personnel.slug}) }}">{{ personnel.nomprenom }}</a></h5>
+                            </h5>
+                            <p class="card-text"> <h4>{% if  personnel.etsouservice.etsouservice  is defined %} {{ personnel.etsouservice.etsouservice }} {% endif %}</h4> </p>
+                            <div class="text-primary">{{ personnel.categorie.categorie}}</div>
+                            <div class="text-success"> <h5>{% if  personnel.detachement.name is defined %} {{ personnel.detachement.name }} {% endif %}</h5> </div>
+                            <div class="text-primary">{% if personnel.direction.name is defined %} {{ personnel.direction.name }} {% endif %}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+        {{ knp_pagination_render(personnels) }}
+    </div>
