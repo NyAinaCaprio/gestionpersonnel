@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\ListeDeco;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method ListeDeco|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,25 @@ class ListeDecoRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ListeDeco::class);
     }
+
+
+/*    public function findAnneeServiceAndAge($mychoix): Response
+    {
+        return $this->createQueryBuilder('l')
+            ->where('l.id = :val')
+            ->setParameter('val', $mychoix)
+            ->getQuery()
+            ->getResult();*/
+
+/*        $conn = $this->getEntityManager()->getConnection();
+
+        $sql =  'SELECT *  FROM liste_deco WHERE liste_deco.id= :mychoix';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array('mychoix' => $mychoix));
+        $decorations  = $stmt->fetchAll(\PDO::FETCH_OBJ);
+        return $decorations;*/
+    //}
 
     // /**
     //  * @return ListeDeco[] Returns an array of ListeDeco objects

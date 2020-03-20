@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Decoration;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Decoration|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,10 +15,26 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class DecorationRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @var PersonnelRepository
+     */
+    private $repository;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    public function __construct(ManagerRegistry $registry, PersonnelRepository $repository, EntityManagerInterface $em)
     {
         parent::__construct($registry, Decoration::class);
+        $this->repository = $repository;
+        $this->em = $em;
     }
+
+
+
+
+
 
     // /**
     //  * @return Decoration[] Returns an array of Decoration objects

@@ -167,6 +167,70 @@ class PersonnelRepository extends ServiceEntityRepository
     }
 
 
+    public function consultDeco($option, $mychoix, $anneeService= null, $age = null)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        if ($option == "consultation")
+        {
+            $sql =  'SELECT
+              personnel.nomprenom,
+              decoration.annee,
+              decoration.decretouarrete,
+              liste_deco.decoration
+            FROM
+              `personnel`
+              INNER JOIN `decoration` ON `personnel`.`id` = `decoration`.`personnel_id`
+              INNER JOIN `liste_deco` ON `decoration`.`listedeco_id` = `liste_deco`.`id`
+                WHERE
+                  personnel.rupture = :rupture AND
+                  decoration.listedeco_id = :listedeco';
+
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute(array('rupture' => "En activité", 'listedeco' => $mychoix));
+            $decorations  = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            return $decorations;
+
+        }
+
+        else{
+            $sql =  'SELECT
+                  `personnel`.`id`,
+                  `personnel`.`nomprenom`,
+                  Year(Date(Now())) - Year(`personnel`.`daterecrute`) AS `AnneeSce`,
+                  Year(Date(Now())) - Year(`personnel`.`datenaisse`) AS `Age`,
+                  `personnel`.`daterecrute` AS `daterecrute`
+                FROM
+                  `personnel`
+                  INNER JOIN `decoration` ON `personnel`.`id` = `decoration`.`id`
+                WHERE
+                  Year(Date(Now())) - Year(`personnel`.`daterecrute`) >= :anneeService AND
+                  Year(Date(Now())) - Year(`personnel`.`datenaisse`) >= :age AND
+                  `decoration`.`listedeco_id` <> :listedeco
+                GROUP BY
+                  `personnel`.`id`,
+                  `personnel`.`nomprenom`,
+                  Year(Date(Now())) - Year(`personnel`.`daterecrute`),
+                  Year(Date(Now())) - Year(`personnel`.`datenaisse`),
+                  `personnel`.`daterecrute`,
+                  `decoration`.`listedeco_id`,
+                  `personnel`.`rupture`
+                HAVING
+                  `personnel`.`rupture` = :rupture';
+
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute(array(
+                'rupture' => "En activité",
+                'listedeco' => $mychoix,
+                'anneeService' =>$anneeService,
+                'age' => $age
+
+            ));
+            $decorations  = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            return $decorations;
+        }
+    }
     /*   public function sommeParCategorie($var)
        {
            return $this->createQueryBuilder('p')

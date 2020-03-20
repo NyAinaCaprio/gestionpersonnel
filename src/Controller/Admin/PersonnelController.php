@@ -44,6 +44,11 @@ class PersonnelController extends AbstractController
 
         $nombrePers = $this->repository->sommepersonnel();
 
+        $ecd = ceil(($sommeECD / $nombrePers)*100);
+        $efa = ceil(($sommeEFA / $nombrePers)*100);
+        $fonct = ceil(($sommeFONCT / $nombrePers)*100);
+
+
         $search = new PersonnelSearch();
         $form  = $this->createForm(PersonnelSearchType::class, $search);
         $form->handleRequest($request);
@@ -58,9 +63,12 @@ class PersonnelController extends AbstractController
                 'personnels' => $personnel,
             'form' => $form->createView(),
             'nombrePersonnel' => $nombrePers,
-            'sommeECD' => $sommeECD,
-            'sommeEFA' => $sommeEFA,
-            'sommeFONCT' => $sommeFONCT,
+            'sommeECD' => $ecd,
+            'sommeEFA' => $efa,
+            'sommeFONCT' => $fonct,
+            'effectECD' => $sommeECD,
+            'effectEFA' => $sommeEFA,
+            'effectFONCT' => $sommeFONCT,
         ]);
 
     }

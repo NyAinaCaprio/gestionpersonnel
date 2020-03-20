@@ -10,48 +10,84 @@
         {{ form_end(form) }}
 	</div>
     <div class="container mt-4">
+
+        <div class="text-right ">
+            <ul class="nav nav-tabs">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Configuration</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ path('etsou_service_index') }}">Service ou etablissement</a>
+                        <a class="dropdown-item" href="{{ path('categorie_index') }}">Catégorie</a>
+                        <a class="dropdown-item" href="{{ path('detachement_index') }}">Détachement</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('direction_index') }}">Direction</a>
+                    </div>
+                </li>
+            </ul>
+            <a href="{{ path('personnel.new') }}" class="btn btn-success">Créer nouveau personnel</a>
+        </div>
 		<h1>Nombre Personnel : {{ nombrePersonnel }}</h1>
-  <div class="row flex">
-	  <div class="col-3 mb-4">
-		  <div class="card mt-4" style="width: 18rem;">
-			  <h3 class="text-center" >ECD</h3>
-			  <div class="card-body">
-				  <h5 class="card-title text-center" style="font-size: 2rem">{{ sommeECD }} </h5>
-			  </div>
-		  </div>
-	  </div>
-	  <div class="col-3 mb-4">
-		  <div class="card mt-4" style="width: 18rem;">
-			  <h3>EFA</h3>
-			  <div class="card-body">
-				  <h5 class="card-title text-center" style="font-size: 2rem">{{ sommeEFA }} </h5>
-			  </div>
-		  </div>
-	  </div>
-	  <div class="col-3 mb-4">
-		  <div class="card mt-4" style="width: 18rem;">
-			  <h3>FONCTIONNAIRE</h3>
-			  <div class="card-body">
-				  <h5 class="card-title text-center" style="font-size: 2rem">{{ sommeFONCT }} </h5>
-			  </div>
-		  </div>
-	  </div>
-  </div>
-	<div class="text-right ">
-		<ul class="nav nav-tabs">
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Configuration</a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="{{ path('etsou_service_index') }}">Service ou etablissement</a>
-					<a class="dropdown-item" href="{{ path('categorie_index') }}">Catégorie</a>
-					<a class="dropdown-item" href="{{ path('detachement_index') }}">Détachement</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="{{ path('direction_index') }}">Direction</a>
-				</div>
-			</li>
-		</ul>
-		<a href="{{ path('personnel.new') }}" class="btn btn-success">Créer nouveau personnel</a>
-	</div>
+
+        <div class="blog-item-header">
+            <div class="box-header">
+                <h3 class="alert alert-success">Détails</h3>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <!-- Info Boxes Style 2 -->
+                <div class="info-box bg-yellow">
+                    <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text" style="font-size: 2rem">ECD</span>
+                        <span class="info-box-number" style="font-size: 2rem"> : {{ effectECD }}</span>
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-green" style="width:51%"> {{ sommeECD }} %</div>
+                        </div>
+                        <span class="progress-description"> </span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+
+
+
+            <div class="col-md-4">
+                <!-- Info Boxes Style 2 -->
+                <div class="info-box bg-yellow">
+                    <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">EFA</span>
+                        <span class="info-box-number"> : {{ effectEFA }} </span>
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-green" style="width:{{ sommeEFA }}%">{{ sommeEFA }}%</div>
+                        </div>
+                        <span class="progress-description"> </span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+
+
+
+            <div class="col-md-4">
+                <!-- Info Boxes Style 2 -->
+                <div class="info-box bg-yellow">
+                    <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">FONCTIONNAIRE</span>
+                        <span class="info-box-number"> : {{ effectFONCT }}</span>
+                        <div class="progress sm">
+                            <div class="progress-bar progress-bar-green" style="width:{{ sommeFONCT }}%">{{ sommeFONCT }}%</div>
+                        </div>
+                        <span class="progress-description"></span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+
+
+
 		<div class="text-center">
 			{% for message in app.flashes('success') %}
 				<div class="alert alert-success">

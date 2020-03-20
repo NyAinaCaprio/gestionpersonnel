@@ -7,9 +7,12 @@
  */
 
 namespace App\Controller\Pages;
+use App\Entity\ListeDeco;
 use App\Entity\Personnel;
 use App\Entity\PersonnelSearch;
 use App\Form\PersonnelSearchType;
+use App\Repository\DecorationRepository;
+use App\Repository\ListeDecoRepository;
 use App\Repository\PersonnelRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,10 +26,20 @@ class HomeController extends AbstractController
      * @var PersonnelRepository
      */
     private $repository;
+    /**
+     * @var DecorationRepository
+     */
+    private $decorepo;
+    /**
+     * @var ListeDecoRepository
+     */
+    private $listeDecoRepository;
 
-    public function __construct(PersonnelRepository $repository)
+    public function __construct(PersonnelRepository $repository, DecorationRepository $decorepo, ListeDecoRepository $listeDecoRepository)
     {
         $this->repository = $repository;
+        $this->decorepo = $decorepo;
+        $this->listeDecoRepository = $listeDecoRepository;
     }
 
     /**
@@ -78,5 +91,49 @@ class HomeController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route("/honorifique", name="home_honorifique")
+     */
+    public function honorifique(): Response
+    {
+        return $this->render('pages/honorifique.html.twig');
+    }
+
+    /**
+     * @Route("/honorifique/consultation/", name="home_consultDeco")
+     * @param Request $request
+     * @return Response
+     */
+    public function consultDeco(Request $request): Response
+    {
+        $option = $request->get('option');
+        $mychoix = $request->get('mychoix');
+
+        if ($option == "proposition"){
+
+            $data= $this->listeDecoRepository->find($mychoix);
+            $age = $data->getAge();
+            $anneeService = $data->getAnneeservice();
+
+            $donnee = $this->repository->consultDeco($option,$mychoix,$anneeService,$age);
+            return $this->render('pages/propositionDeco.html.twig', [
+                'decorations' => $donnee,
+
+            ]);
+        }
+
+        $decorations = $this->repository->consultDeco($option, $mychoix);
+        return $this->render('pages/consultDeco.html.twig', [
+            'decorations' => $decorations,
+            'mychoix' => $mychoix,
+            'option' => $option
+        ]);
+
+
+
+    }
+
+
 
 }

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>{{ decorations|length }} Résultat(s) trouvés :: liste proposable </h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Nom et Prénom(s)</th>
+            <th scope="col">Année de service</th>
+            <th scope="col">Age</th>
+            <th scope="col">Date récrute</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for decoration in decorations  %}
+            <tr>
+                <td>{{ decoration.nomprenom }} </td>
+                <td>{{ decoration.AnneeSce }} </td>
+                <th>{{ decoration.Age }} </th>
+                <td>{{ decoration.daterecrute }} </td>
+            </tr>
+
+            {% else %}
+            <tr>
+                <td colspan="4"><h3> Pas d'enregistrement ... </h3></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

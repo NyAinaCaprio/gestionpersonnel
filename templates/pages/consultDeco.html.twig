@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>{{ decorations|length }} Résultat(s) trouvés </h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Nom et Prénom(s)</th>
+            <th scope="col">Décoration</th>
+            <th scope="col">Décret ou arrêté</th>
+            <th scope="col">Année</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for decoration in decorations  %}
+            <tr>
+                <td>{{ decoration.nomprenom }} </td>
+                <td>{{ decoration.decoration }} </td>
+                <th>{{ decoration.decretouarrete }} </th>
+                <td>{{ decoration.annee }} </td>
+            </tr>
+
+            {% else %}
+            <tr>
+                <td colspan="4"><h3> Pas d'enregistrement ... </h3></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
