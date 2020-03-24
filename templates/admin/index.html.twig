@@ -11,6 +11,13 @@
 	</div>
     <div class="container mt-4">
 
+        <div class="text-center">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
         <div class="text-right ">
             <ul class="nav nav-tabs">
                 <li class="nav-item dropdown">
@@ -21,6 +28,10 @@
                         <a class="dropdown-item" href="{{ path('detachement_index') }}">Détachement</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('direction_index') }}">Direction</a>
+                        <a class="dropdown-item" href="{{ path('security_registration') }}">Gerer les utilisateurs</a>
+                        {% if app.user %}
+                            <a href="{{ path('security_logout') }}" type="button" class="dropdown-item">Déconnexion</a>
+                        {% endif %}
                     </div>
                 </li>
             </ul>
@@ -86,15 +97,6 @@
             </div>
         </div>
 
-
-
-		<div class="text-center">
-			{% for message in app.flashes('success') %}
-				<div class="alert alert-success">
-					{{ message }}
-				</div>
-			{% endfor %}
-		</div>
         <h1>Liste personnel</h1>
         <table class="table table-responsive-xl">
         	<tr>

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="list-group">
+    <a href="#" class="list-group-item list-group-item-action active">
+        Liste Personnel
+    </a>
+    {% for retraite in retraite %}
+    <a href="{{ path('accueil.retraite', {annee : retraite.date_retraite }) }}" class="list-group-item list-group-item-action"> {{ retraite.date_retraite}}  : {{ retraite.somme }}</a>
+    {% endfor %}
+</div>
+
+{% endblock %}

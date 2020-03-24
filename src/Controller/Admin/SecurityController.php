@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\EtsouService;
 use App\Entity\User;
@@ -43,7 +43,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/inscription", name="security_registration")
+     * @Route("admin/inscription", name="security_registration")
      */
     public function registration(Request $request, AuthenticationUtils $utils)
     {

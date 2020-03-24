@@ -53,7 +53,7 @@ class Personnel
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Regex(pattern="/^[a-zA-Z]+$/i")
+     * @Assert\Regex(pattern="/^[0-9]{10}/")
      * @ORM\Column(type="string", length=12)
      */
     private $cin;
@@ -77,9 +77,9 @@ class Personnel
     private $adresseactuelle;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\Email(message= "Cet adresse email '{{ value }}' n'est pas valide.")
      * @ORM\Column(type="string", length=200, nullable=true)
-     * @Assert\Email(message = "cet adresse email '{{ value }}' n'est pas valide.")
+     *
      */
     private $adresseMail;
 
@@ -105,9 +105,8 @@ class Personnel
     private $religion;
 
     /**
-     * @Assert\Regex("/^[0-9]{10}/")
+     * @Assert\Regex("/^[0-9]{10}$/")
      * @ORM\Column(type="string", length=10, nullable=true)
-     *
      *
      */
     private $telephone;
@@ -118,24 +117,7 @@ class Personnel
      */
     private $filename;
 
-    /**
-     * @return null|string
-     */
-    public function getFilename(): ?string
-    {
-        return $this->filename;
-    }
-
-    /**
-     * @param null|string $filename
-     * @return Personnel
-     */
-    public function setFilename(?string $filename): Personnel
-    {
-        $this->filename = $filename;
-        return $this;
-    }
-
+    
     /**
      * @ORM\Column(type="datetime")
      *
@@ -349,6 +331,12 @@ class Personnel
 
     public function __construct()
     {
+        $date = date_add($this->datenaisse, date_interval_create_from_date_string('65 years'));
+        $this->dateRetraite(new \DateTime(date_format($date, 'Y-m-d'))) ;
+
+        if ($this->imageFile) {
+            $this->filename = $this->getSlug().'jpg';
+        }
 
         $this->affectationSuccessives = new ArrayCollection();
         $this->avancements = new ArrayCollection();
@@ -360,7 +348,23 @@ class Personnel
         $this->autoAbsences = new ArrayCollection();
     }
 
+    /**
+     * @return null|string
+     */
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
 
+    /**
+     * @param null|string $filename
+     * @return Personnel
+     */
+    public function setFilename(?string $filename): Personnel
+    {
+        $this->filename = $filename;
+        return $this;
+    }
 
      public function getId(): ?int
     {

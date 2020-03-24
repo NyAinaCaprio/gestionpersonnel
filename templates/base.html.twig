@@ -9,8 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
     <link  href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/font-awesome/css/font-awesome.min.css') }}">
     {#<link rel="stylesheet" type="text/css" href="public/font-awesome-4.3.0/css/font-awesome.min.css">#}
     <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+
     <style>
         .formSearch {
             display: none;
@@ -53,9 +55,6 @@
         </ul>
         <form class="form-inline mb-4 my-lg-0">
             <button type="button" class="btn btn-primary" id="recherche">Recherche</button>
-            {% if app.user %}
-                <a href="{{ path('security_logout') }}" type="button" class="btn btn-secondary">Déconnexion</a>
-            {% endif %}
         </form>
     </div>
 </nav>
@@ -82,9 +81,9 @@
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="accordion" id="accordionExample">
                 <div class="card">
-                    <div class="li{ id: service.id } )st-group"  id="headingOne">
+                    <div class="li{ id: service.id } )list-group"  id="headingOne">
                         <button class="list-group-item list-group-item-action list-group-item-primary" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Gestion personnel
+                            <i class="fa fa-search" aria-hidden="true"></i>Gestion personnel
                         </button>
                     </div>
 
@@ -110,19 +109,21 @@
                     </div>
                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                         <ul class="list-group ">
-                            <a href=" " class="list-group-item list-group-item-warning d-flex  align-items-center ">Personnel retraité </a>
+                            <a href="{{ path('accueil.rouperetraite') }}" class="list-group-item list-group-item-warning d-flex  align-items-center "> Retraité</a>
                         </ul>
                     </div>
                 </div>
                 <div class="card">
                     <div class="list-group" id="headingTwo">
                         <button   class="list-group-item list-group-item-action list-group-item-primary" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            Gestion des Archives
+                            Saint Martin (Evénements)
                         </button>
                     </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample"><ul class="list-group">
-                            <a href="{{ path('personnel.index') }}" class="list-group-item list-group-item-warning d-flex  align-items-center "></a>
-                   </ul>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <ul class="list-group">
+                            <a href=" " class="list-group-item list-group-item-warning d-flex  align-items-center ">
+                            </a>
+                        </ul>
                     </div>
                 </div>
                 <div class="card">

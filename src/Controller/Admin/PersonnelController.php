@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-
+//use Symfony\Component\validator\validator\ValidatorInterface;
 class PersonnelController extends AbstractController
 {
     /**
@@ -27,14 +27,18 @@ class PersonnelController extends AbstractController
     private $repository;
 
 
-    public function __construct( EntityManagerInterface $em, PersonnelRepository $repository)
+    public function __construct( EntityManagerInterface $em, PersonnelRepository $repository )
     {
+
         $this->em = $em;
         $this->repository = $repository;
     }
 
     /**
      * @Route("admin/", name="personnel.index")
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
      */
     public function index(PaginatorInterface $paginator, Request $request):Response
     {
@@ -82,18 +86,22 @@ class PersonnelController extends AbstractController
     {
         $personnel = new Personnel();
 
+/*
 
+        $errors = $validator->validate($personnel);
+        if (count($errors) > 0) {
+            $errors = (string)$errors;
+            return $this->redirectToRoute('personnel.new', [
+                '$errors' => $errors
+                ],301);
+        }
+*/
+        
         $form = $this->createForm(PersonnelType::class,$personnel);
         $form->handleRequest($request);
 
-        /*if (!$form->isValid())
-        {
-            return   $this->render('admin/new.html.twig',[
-                'form' => $form->createView()
-            ]);
-        }*/
 
-       if ($form->isSubmitted())
+       if ($form->isSubmitted() and $form->isValid())
         {
             $date = $personnel->getDatenaisse();
             $date = date_add($date, date_interval_create_from_date_string('65 years'));
@@ -117,13 +125,13 @@ class PersonnelController extends AbstractController
      * @param Personnel $personnel
      * @return Response
      */
-     public function edit(Personnel $personnel, String $slug, Request $request):Response
+     public function edit(Personnel $personnel, String $slug = null , Request $request):Response
      {
          $personnel = $this->repository->findOneById($personnel);
          $form = $this->createForm(PersonnelType::class, $personnel);
          $form->handleRequest($request);
 
-         if ($form->isSubmitted())
+         if ($form->isSubmitted() && $form->isValid())
          {
 
              $this->em->flush();
@@ -138,5 +146,10 @@ class PersonnelController extends AbstractController
 
 
      }
+
+
+
+
+
 
 }

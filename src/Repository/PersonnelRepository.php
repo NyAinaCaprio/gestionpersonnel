@@ -178,9 +178,9 @@ class PersonnelRepository extends ServiceEntityRepository
               decoration.decretouarrete,
               liste_deco.decoration
             FROM
-              `personnel`
-              INNER JOIN `decoration` ON `personnel`.`id` = `decoration`.`personnel_id`
-              INNER JOIN `liste_deco` ON `decoration`.`listedeco_id` = `liste_deco`.`id`
+              personnel
+              INNER JOIN decoration ON personnel.id = decoration.personnel_id
+              INNER JOIN liste_deco ON decoration.listedeco_id = liste_deco.id
                 WHERE
                   personnel.rupture = :rupture AND
                   decoration.listedeco_id = :listedeco';
@@ -195,28 +195,28 @@ class PersonnelRepository extends ServiceEntityRepository
 
         else{
             $sql =  'SELECT
-                  `personnel`.`id`,
-                  `personnel`.`nomprenom`,
-                  Year(Date(Now())) - Year(`personnel`.`daterecrute`) AS `AnneeSce`,
-                  Year(Date(Now())) - Year(`personnel`.`datenaisse`) AS `Age`,
-                  `personnel`.`daterecrute` AS `daterecrute`
+                  personnel.id,
+                  personnel.nomprenom,
+                  Year(Date(Now())) - Year(personnel.daterecrute) AS AnneeSce,
+                  Year(Date(Now())) - Year(personnel.datenaisse) AS Age,
+                  personnel.daterecrute AS daterecrute
                 FROM
-                  `personnel`
-                  INNER JOIN `decoration` ON `personnel`.`id` = `decoration`.`id`
+                  personnel
+                  INNER JOIN decoration ON personnel.id = decoration.id
                 WHERE
-                  Year(Date(Now())) - Year(`personnel`.`daterecrute`) >= :anneeService AND
-                  Year(Date(Now())) - Year(`personnel`.`datenaisse`) >= :age AND
-                  `decoration`.`listedeco_id` <> :listedeco
+                  Year(Date(Now())) - Year(personnel.daterecrute) >= :anneeService AND
+                  Year(Date(Now())) - Year(personnel.datenaisse) >= :age AND
+                  decoration.listedeco_id <> :listedeco
                 GROUP BY
-                  `personnel`.`id`,
-                  `personnel`.`nomprenom`,
-                  Year(Date(Now())) - Year(`personnel`.`daterecrute`),
-                  Year(Date(Now())) - Year(`personnel`.`datenaisse`),
-                  `personnel`.`daterecrute`,
-                  `decoration`.`listedeco_id`,
-                  `personnel`.`rupture`
+                  personnel.id,
+                  personnel.nomprenom,
+                  Year(Date(Now())) - Year(personnel.daterecrute),
+                  Year(Date(Now())) - Year(personnel.datenaisse),
+                  personnel.daterecrute,
+                  decoration.listedeco_id,
+                  personnel.rupture
                 HAVING
-                  `personnel`.`rupture` = :rupture';
+                  personnel.rupture = :rupture';
 
 
             $stmt = $conn->prepare($sql);
@@ -230,7 +230,58 @@ class PersonnelRepository extends ServiceEntityRepository
             $decorations  = $stmt->fetchAll(\PDO::FETCH_OBJ);
             return $decorations;
         }
+
+
     }
+
+    public function groupRetraite()
+        {
+            $conn = $this->getEntityManager()->getConnection();
+            $annee = date("Y");
+            $sql =  'SELECT
+                      Count(`personnel`.`id`) AS `somme`,
+                      Year(`personnel`.`date_retraite`) AS `date_retraite`
+                    FROM
+                      `personnel`
+                    WHERE
+                      Year(`personnel`.`date_retraite`) >= :annee
+                    GROUP BY
+                      Year(`personnel`.`date_retraite`),
+                      `personnel`.`rupture`
+                    HAVING
+                      `personnel`.`rupture` = :rupture';
+
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute(array('rupture' => "En activité", 'annee' => $annee));
+            $retraite  = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            return $retraite;
+        }
+
+        
+        public function findRetraiteByYear($annee)
+        {
+          $conn = $this->getEntityManager()->getConnection();
+          $sql = 'SELECT
+                  `personnel`.`id`,
+                  `personnel`.`nomprenom`,
+                  `personnel`.`categorie_id`,
+                  `personnel`.`etsouservice_id`,
+                  `personnel`.`detachement_id`,
+                  Year(`personnel`.`date_retraite`) AS `date_retraite`,
+                  `categorie`.`categorie`,
+                  `personnel`.`rupture`
+                FROM
+                  `personnel`
+                  INNER JOIN `categorie` ON `categorie`.`id` = `personnel`.`categorie_id`
+                WHERE
+                  Year(`personnel`.`date_retraite`) = :annee AND
+                  `personnel`.`rupture` = :rupture';
+            $stmt = $conn->prepare($sql);
+            $stmt->execute(array('rupture' => "En activité", 'annee' => $annee));
+            $retraite  = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            return $retraite;
+        }
     /*   public function sommeParCategorie($var)
        {
            return $this->createQueryBuilder('p')

@@ -15,6 +15,7 @@ use App\Repository\DecorationRepository;
 use App\Repository\ListeDecoRepository;
 use App\Repository\PersonnelRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Link\LinkInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    /**
-     * @var PersonnelRepository
-     */
-    private $repository;
+
     /**
      * @var DecorationRepository
      */
@@ -34,12 +32,17 @@ class HomeController extends AbstractController
      * @var ListeDecoRepository
      */
     private $listeDecoRepository;
+    /**
+     * @var PersonnelRepository
+     */
+    private $personnelRepo;
 
-    public function __construct(PersonnelRepository $repository, DecorationRepository $decorepo, ListeDecoRepository $listeDecoRepository)
+    public function __construct(PersonnelRepository $personnelRepo, DecorationRepository $decorepo, ListeDecoRepository $listeDecoRepository)
     {
-        $this->repository = $repository;
+
         $this->decorepo = $decorepo;
         $this->listeDecoRepository = $listeDecoRepository;
+        $this->personnelRepo = $personnelRepo;
     }
 
     /**
@@ -55,7 +58,7 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
 
         $personnel = $paginator->paginate(
-            $this-> repository->findAllVisibleQuery($search), /* query NOT result */
+            $this-> personnelRepo->findAllVisibleQuery($search), /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             20 /*limit per page*/
         );
@@ -83,9 +86,9 @@ class HomeController extends AbstractController
      * @param Personnel $personnel
      * @return Response
      */
-    public function show(Personnel $personnel): \Symfony\Component\HttpFoundation\Response
+    public function show(Personnel $personnel): Response
     {
-        $personnel = $this->repository->find($personnel);
+        $personnel = $this->personnelRepo->find($personnel);
         return $this->render('pages/show.html.twig', [
             'personnel' => $personnel
         ]);
@@ -116,14 +119,14 @@ class HomeController extends AbstractController
             $age = $data->getAge();
             $anneeService = $data->getAnneeservice();
 
-            $donnee = $this->repository->consultDeco($option,$mychoix,$anneeService,$age);
+            $donnee = $this->personnelRepo->consultDeco($option,$mychoix,$anneeService,$age);
             return $this->render('pages/propositionDeco.html.twig', [
                 'decorations' => $donnee,
 
             ]);
         }
 
-        $decorations = $this->repository->consultDeco($option, $mychoix);
+        $decorations = $this->personnelRepo->consultDeco($option, $mychoix);
         return $this->render('pages/consultDeco.html.twig', [
             'decorations' => $decorations,
             'mychoix' => $mychoix,
@@ -133,6 +136,9 @@ class HomeController extends AbstractController
 
 
     }
+
+
+
 
 
 
