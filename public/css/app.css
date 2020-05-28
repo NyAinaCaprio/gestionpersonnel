@@ -1,0 +1,156 @@
+
+body{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+.progressBar {
+    background-color: rgba(117, 190, 218, 0.5); /* 0.5 - semi-transparent */
+    padding: 15px;
+    border-radius: 15px;
+}
+.main{
+    margin: 20px 20px;
+    padding: 20px 20px ;
+}
+
+.map{
+    border:0;
+    width: 100%;
+    left: 2px;
+    /* position: absolute; */
+}
+
+.login{
+    
+    margin: 0 auto;
+    width: 20%;
+    height: 40%;
+    background-color: teal;
+    color: white;
+    padding: 50px 30px;
+    border-radius: 20px;
+    border: solid 10px lightseagreen;
+    line-height: 53px;
+    font-family: cursive;
+    font-size: x-large;
+}
+
+.personnelImage{
+    width: 100%; 
+    height: auto;
+    border: solid 1px lightsteelblue;
+    border-radius: 1em;
+}
+
+.fichePers {
+    padding: 20px;
+    margin: 20px 20px;
+    border: solid 1px lightsteelblue;
+    border-radius: 1em;
+}
+.search{
+    
+    top:20px;
+    padding: 20px;
+    margin: 10px 20px;
+    border: solid 1px lightsteelblue;
+    border-radius: 1em;   
+}
+
+.listePersConsult{ 
+    width: 80%;
+    margin: 0 auto;  
+}
+.container p::first-letter{
+    font-size: 5rem;
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    line-height: 40px;
+
+    
+    
+}
+.container p{
+    text-indent: 40px;
+    text-align: justify;
+    line-height: 35px;
+}
+.footer{
+    bottom: 0;
+    
+    width: 100%;
+    padding: 20px 20px;
+}
+.footer p{
+    line-height: 20px;
+    
+}
+ 
+
+.checkbox_export {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .checkbox_export input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .checkbox_export:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .checkbox_export input:checked ~ .checkmark {
+    background-color: rgb(72, 236, 22);
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .checkbox_export input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .checkbox_export .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }

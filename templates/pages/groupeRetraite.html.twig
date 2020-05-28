@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="list-group">
+    <a href="#" class="list-group-item list-group-item-action active">
+        Liste Personnel
+    </a>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Année</th>
+                <th>Nombres</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+        {% for retraite in retraite %}
+        <tr>
+            <td><a href="{{ path('accueil.retraite', {annee : retraite.date_retraite }) }}"> {{ retraite.date_retraite}}   </a></td>
+            <td>{{ retraite.somme }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+</div>
+
+{% endblock %}

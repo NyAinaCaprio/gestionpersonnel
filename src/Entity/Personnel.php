@@ -26,6 +26,12 @@ class Personnel
      */
     private $id;
 
+    
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255)
+     */
+    private $filename;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -110,15 +116,8 @@ class Personnel
      *
      */
     private $telephone;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $filename;
-
     
-    /**
+     /**
      * @ORM\Column(type="datetime")
      *
      * @var \DateTimeInterface|null
@@ -333,11 +332,7 @@ class Personnel
     {
         $date = date_add($this->datenaisse, date_interval_create_from_date_string('65 years'));
         $this->dateRetraite(new \DateTime(date_format($date, 'Y-m-d'))) ;
-
-        if ($this->imageFile) {
-            $this->filename = $this->getSlug().'jpg';
-        }
-
+        
         $this->affectationSuccessives = new ArrayCollection();
         $this->avancements = new ArrayCollection();
         $this->decoration = new ArrayCollection();
@@ -362,7 +357,9 @@ class Personnel
      */
     public function setFilename(?string $filename): Personnel
     {
+
         $this->filename = $filename;
+        
         return $this;
     }
 
@@ -400,9 +397,7 @@ class Personnel
 
         return $this;
     }
-
-
-
+    
     public function getCin(): ?string
     {
         return $this->cin;
@@ -736,6 +731,7 @@ class Personnel
         $this->imageFile = $imageFile;
         // Only change the updated af if the file is really uploaded to avoid database updates.
         // This is needed when the file should be set when loading the entity.
+        // rehefa misy image telecharger dia manao mise a jour ny champ updated
         if ($this->imageFile instanceof UploadedFile) {
             $this->updated_at = new \DateTime('now');
         }

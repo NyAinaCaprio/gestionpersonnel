@@ -12,7 +12,6 @@ namespace App\Controller\Pages;
 use App\Repository\DirecteurRepository;
 use App\Repository\EtsouServiceRepository;
 use App\Repository\PersonnelRepository;
-use Psr\Link\LinkInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,21 +40,12 @@ class AccueilController extends AbstractController
         $this->directeurRepo = $directeurRepo;
         $this->personnelRepo = $personnelRepo;
     }
+
     /**
-     * @Route("/", name="accueil.index")
      * @return Response
      */
     public function index():Response
     {
-        $directeur = $this->directeurRepo->findDirecteur();
-        $service = $this->etsouServiceRepo->findService();
-        $ets = $this->etsouServiceRepo->findEts();
-
-        return $this->render('pages/home.html.twig', [
-            'services' => $service,
-            'ets' => $ets,
-            'directeurs' => $directeur
-        ]);
 
     }
 

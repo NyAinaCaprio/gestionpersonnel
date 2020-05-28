@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Directeur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
 
 /**
  * @method Directeur|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,12 +20,15 @@ class DirecteurRepository extends ServiceEntityRepository
         parent::__construct($registry, Directeur::class);
     }
 
-    public function findDirecteur()
+
+    /**
+     * @return Query
+     */
+    public function findDirecteur() :Query
     {
         return $this->createQueryBuilder('d')
             ->orderBy('d.id', 'DESC')
             ->getQuery()
-            ->getResult()
             ;
     }
 

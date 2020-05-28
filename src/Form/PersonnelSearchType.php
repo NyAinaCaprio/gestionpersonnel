@@ -9,6 +9,8 @@ use App\Entity\EtsouService;
 use App\Entity\PersonnelSearch;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,25 +21,25 @@ class PersonnelSearchType extends AbstractType
     {
         $builder
             ->add('nomprenom', TextType::class, [
-                'required' => false
-            ])
+                'required' => false,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Nom ou Prénoms...']])
             ->add('etsouservice', EntityType::class, [
                 'required'=> false,
                 'choice_label' => 'etsouservice',
                 'class' => EtsouService::class,
-                'label' => 'Service ou Etablissement',
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Ets ou Service...']
             ])
             ->add('categorie', EntityType::class,[
                 'required'=> false,
                 'choice_label' => 'categorie',
                 'class' => Categorie::class,
-                'label' => 'Catégorie',
-            ])
-            ->add('detachement', EntityType::class,[
-                'required'=> false,
-                'choice_label' => 'name',
-                'class' => Detachement::class,
-                'label' => 'Détachement',
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Catégorie...']
             ])
         ;
     }
@@ -46,6 +48,13 @@ class PersonnelSearchType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PersonnelSearch::class,
+            'method' => 'get', 
+            'csrf_protection' => false
         ]);
+    }
+
+    public function getBlockPrefix()
+    {
+        return '';
     }
 }

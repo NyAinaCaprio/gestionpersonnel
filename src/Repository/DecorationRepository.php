@@ -18,21 +18,46 @@ class DecorationRepository extends ServiceEntityRepository
     /**
      * @var PersonnelRepository
      */
-    private $repository;
+    private $personnelRepo;
     /**
      * @var EntityManagerInterface
      */
     private $em;
 
-    public function __construct(ManagerRegistry $registry, PersonnelRepository $repository, EntityManagerInterface $em)
+    public function __construct(ManagerRegistry $registry, PersonnelRepository $personnelRepo, EntityManagerInterface $em)
     {
         parent::__construct($registry, Decoration::class);
-        $this->repository = $repository;
+        $this->personnelRepo = $personnelRepo;
         $this->em = $em;
     }
 
 
+    public function consultDeco($option, $mychoix, $anneeService= null, $age = null){
+        if ($option == "consultation"){
+            return $this->createQueryBuilder('d')
+                ->innerJoin('d.personnel', 'pers')
+                ->innerJoin('d.listedeco', 'listedeco')
+                ->addSelect('listedeco.decoration, d.decretouarrete, d.annee,pers.nomprenom')
+                ->where('listedeco.id = :listedeco')
+                ->andWhere('pers.rupture = :rupture')
+                ->setParameter('listedeco', $mychoix)
+                ->setParameter('rupture', 'En activité')
+                ->getQuery()
+                ->getResult();
+        }else{
 
+            return $this->createQueryBuilder('d')
+                ->innerJoin('d.personnel','pers')
+                ->addSelect('YEAR(CURRENT_DATE()) - Year(pers.daterecrute) as anneeService, Year(CURRENT_DATE()) - Year(pers.datenaisse) as age, pers.nomprenom, pers.daterecrute')
+                ->where('YEAR(CURRENT_DATE()) - Year(pers.daterecrute) >= :anneeService')
+                ->groupBy('pers.nomprenom')
+                ->andWhere('YEAR(CURRENT_DATE()) - Year(pers.datenaisse) >= :age')
+                ->setParameter('anneeService', $anneeService)
+                ->setParameter('age', $age)
+                ->getQuery()
+                ->getResult();
+        }
+    }
 
 
 

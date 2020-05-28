@@ -40,7 +40,7 @@ class PersonnelRepository extends ServiceEntityRepository
      * @param Personnel[]
      * @return Query
      */
-    public function findAllVisibleQuery(PersonnelSearch $search): Query
+    public function findAllVisibleQuery(PersonnelSearch $search ): Query
     {
 
          $query =  $this->findVisibleQuery();
@@ -63,18 +63,13 @@ class PersonnelRepository extends ServiceEntityRepository
                 ->setParameter('categorie',$search->getCategorie());
 
         }
-        if ($search->getDetachement())
-        {
-            $query = $query->andWhere('p.detachement = :detache')
-                ->setParameter('detache',$search->getDetachement());
-
-        }
 
              return $query->getQuery();
 
     }
 
-
+ 
+    
     /**
      * @return Personnel[]
      */
@@ -236,9 +231,19 @@ class PersonnelRepository extends ServiceEntityRepository
 
     public function groupRetraite()
         {
+
+/*            return $this->findVisibleQuery()
+                ->addSelect('COUNT(p) as somme, YEAR(p.dateRetraite) as date_retraite')
+                ->andWhere('p.dateRetraite >= :annee')
+                ->setParameter('annee', date('Y'))
+                ->groupBy('date_retraite')
+                ->getQuery()
+                ->getResult();*/
+
+
             $conn = $this->getEntityManager()->getConnection();
-            $annee = date("Y");
-            $sql =  'SELECT
+            //$annee = date("Y");
+/*            $sql =  'SELECT
                       Count(`personnel`.`id`) AS `somme`,
                       Year(`personnel`.`date_retraite`) AS `date_retraite`
                     FROM
@@ -249,11 +254,23 @@ class PersonnelRepository extends ServiceEntityRepository
                       Year(`personnel`.`date_retraite`),
                       `personnel`.`rupture`
                     HAVING
+                      `personnel`.`rupture` = :rupture';*/
+
+
+            $sql =  'SELECT
+                      Count(`personnel`.`id`) AS `somme`,
+                      Year(`personnel`.`date_retraite`) AS `date_retraite`
+                    FROM
+                      `personnel`
+                    GROUP BY
+                      Year(`personnel`.`date_retraite`),
+                      `personnel`.`rupture`
+                    HAVING
                       `personnel`.`rupture` = :rupture';
 
 
             $stmt = $conn->prepare($sql);
-            $stmt->execute(array('rupture' => "En activité", 'annee' => $annee));
+            $stmt->execute(array('rupture' => "En activité"));
             $retraite  = $stmt->fetchAll(\PDO::FETCH_OBJ);
             return $retraite;
         }

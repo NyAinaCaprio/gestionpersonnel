@@ -19,12 +19,7 @@ class PersonnelSearch
      * @var int|null
      */
     private $categorie;
-
-    /**
-     * @var int|null
-     */
-    private $detachement;
-
+    
     /**
      * @return null|string
      */
@@ -78,26 +73,6 @@ class PersonnelSearch
         $this->categorie = $categorie;
         return $this;
     }
-
-    /**
-     * @return Detachement|null
-     */
-    public function getDetachement(): ?Detachement
-    {
-        return $this->detachement;
-    }
-
-    /**
-     * @param int|null $detachement
-     * @return PersonnelSearch
-     */
-    public function setDetachement(Detachement $detachement): PersonnelSearch
-    {
-        $this->detachement = $detachement;
-        return $this;
-    }
-
-
-
+    
 
 }

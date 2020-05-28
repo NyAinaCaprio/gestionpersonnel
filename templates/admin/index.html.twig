@@ -4,12 +4,8 @@
 
 {% block body %}
 
-	<div class="container">
-        {{ form_start(form) }}
-    {% include'pages/_formSearch.html.twig' %}
-        {{ form_end(form) }}
-	</div>
-    <div class="container mt-4">
+
+    <div class="container mb-4">
 
         <div class="text-center">
             {% for message in app.flashes('success') %}
@@ -18,26 +14,8 @@
                 </div>
             {% endfor %}
         </div>
-        <div class="text-right ">
-            <ul class="nav nav-tabs">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Configuration</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ path('etsou_service_index') }}">Service ou etablissement</a>
-                        <a class="dropdown-item" href="{{ path('categorie_index') }}">Catégorie</a>
-                        <a class="dropdown-item" href="{{ path('detachement_index') }}">Détachement</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ path('direction_index') }}">Direction</a>
-                        <a class="dropdown-item" href="{{ path('security_registration') }}">Gerer les utilisateurs</a>
-                        {% if app.user %}
-                            <a href="{{ path('security_logout') }}" type="button" class="dropdown-item">Déconnexion</a>
-                        {% endif %}
-                    </div>
-                </li>
-            </ul>
-            <a href="{{ path('personnel.new') }}" class="btn btn-success">Créer nouveau personnel</a>
-        </div>
-		<h1>Nombre Personnel : {{ nombrePersonnel }}</h1>
+        
+		<h1 >Nombre Personnel : {{ nombrePersonnel }}</h1>
 
         <div class="blog-item-header">
             <div class="box-header">
@@ -51,11 +29,11 @@
                 <!-- Info Boxes Style 2 -->
                 <div class="info-box bg-yellow">
                     <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
-                    <div class="info-box-content">
+                    <div class="info-box-content progressBar">
                         <span class="info-box-text" style="font-size: 2rem">ECD</span>
-                        <span class="info-box-number" style="font-size: 2rem"> : {{ effectECD }}</span>
+                        <span class="info-box-number" > : {{ effectECD }}</span>
                         <div class="progress sm">
-                            <div class="progress-bar progress-bar-green" style="width:51%"> {{ sommeECD }} %</div>
+                            <div class="progress-bar progress-bar-green" style="width:{{ sommeECD }}%"> {{ sommeECD }} %</div>
                         </div>
                         <span class="progress-description"> </span>
                     </div><!-- /.info-box-content -->
@@ -68,8 +46,8 @@
                 <!-- Info Boxes Style 2 -->
                 <div class="info-box bg-yellow">
                     <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">EFA</span>
+                    <div class="info-box-content progressBar">
+                        <span class="info-box-text" style="font-size: 2rem">EFA</span>
                         <span class="info-box-number"> : {{ effectEFA }} </span>
                         <div class="progress sm">
                             <div class="progress-bar progress-bar-green" style="width:{{ sommeEFA }}%">{{ sommeEFA }}%</div>
@@ -85,8 +63,8 @@
                 <!-- Info Boxes Style 2 -->
                 <div class="info-box bg-yellow">
                     <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">FONCTIONNAIRE</span>
+                    <div class="info-box-content progressBar">
+                        <span class="info-box-text" style="font-size: 2rem">FONCTIONNAIRE</span>
                         <span class="info-box-number"> : {{ effectFONCT }}</span>
                         <div class="progress sm">
                             <div class="progress-bar progress-bar-green" style="width:{{ sommeFONCT }}%">{{ sommeFONCT }}%</div>
@@ -96,38 +74,49 @@
                 </div><!-- /.info-box -->
             </div>
         </div>
+ 
+           <hr>
+           {% include "pages/_formSearch.html.twig" %}  
 
-        <h1>Liste personnel</h1>
-        <table class="table table-responsive-xl">
-        	<tr>
-	        	<td>Nom et Prénom(s) </td>
-	        	<td>Direction </td>
-	        	<td>Service/Etablissement </td>
-	        	<td>Détachement</td>
-	        	<td>Catégorie </td>
-	        	<td>Action </td>
-	        </tr>
-			{% for personnel in personnels %}
-				<tr>
-					<td>{{ personnel.nomprenom }} </td>
-					<td>{% if  personnel.direction.name is defined %} {{ personnel.direction.name}} {% endif %} </td>
-					<td> {% if  personnel.etsouservice.etsouservice is defined %} {{ personnel.etsouservice.etsouservice }} {% endif %} </td>
-					<td> {% if  personnel.detachement.name is defined %} {{ personnel.detachement.name }} {% endif %} </td>
-					<td>{{ personnel.categorie.categorie }} </td>
-					<td>
-						<form action="" method="post">
-							<a href="{{ path('personnel.edit', {'id': personnel.id, 'slug': personnel.slug}) }}" class="btn btn-primary">Modifier</a>
+    </div> 
 
-							<a href="{{ path('auto_absence_new', {'id': personnel.id, 'slug': personnel.slug }) }}" class="btn btn-success" style="display: inline-block">Auto Absence</a>
+    {% if {{exportexcel}} ==1 %}
+        
+    {% endif %}
 
 
-						</form>
-					</td>
-				</tr>
-            {% endfor %}
-    	</table>
-        {{ knp_pagination_render(personnels) }}
-    </div>
+
+
+    <div class="alert alert-primary" role="alert">Liste Personnel</div>
+    <table class="table table-hover">
+        <tr>
+            <td>Nom et Prénom(s) </td>
+            <td>Téléphone</td>
+            <td>Adresse</td>
+            <td>Service/Etablissement </td>
+            <td>Catégorie </td>
+            <td>Action </td>
+        </tr>
+        {% for personnel in personnels %}
+            <tr>
+                <td><a href="{{ path('personnel.show', {'id': personnel.id, 'slug': personnel.slug}) }}" >{{ personnel.nomprenom }} </a></td>
+                <td>{{ personnel.telephone }}</td>
+                <td>{{ personnel.adresseactuelle }}</td>
+                <td> {% if  personnel.etsouservice.etsouservice is defined %} {{ personnel.etsouservice.etsouservice }} {% endif %} </td>
+                <td>{{ personnel.categorie.categorie }} </td>
+                <td>
+                    <form action="" method="post">
+                        <a href="{{ path('personnel.edit', {'id': personnel.id, 'slug': personnel.slug}) }}" class="btn btn-primary btn-sm">Modifier</a>
+
+                        {#<a href="{{ path('auto_absence_new', {'id': personnel.id, 'slug': personnel.slug }) }}" class="btn btn-success" style="display: inline-block">Auto Absence</a>#}
+
+
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {{ knp_pagination_render(personnels) }}
 {% endblock %}
 
 {% block javascripts %}{% endblock %}

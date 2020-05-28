@@ -35,13 +35,17 @@ class PersonnelController extends AbstractController
     }
 
     /**
-     * @Route("admin/", name="personnel.index")
+     * @Route("personnel/", name="personnel.index")
      * @param PaginatorInterface $paginator
      * @param Request $request
      * @return Response
      */
     public function index(PaginatorInterface $paginator, Request $request):Response
-    {
+{       
+        $search = new PersonnelSearch();
+        $form  = $this->createForm(PersonnelSearchType::class, $search);
+        $form->handleRequest($request);
+        
         $sommeECD = $this->repository->sommeECD();
         $sommeEFA = $this->repository->sommeEFA();
         $sommeFONCT = $this->repository->sommeFONCT();
@@ -50,21 +54,18 @@ class PersonnelController extends AbstractController
 
         $ecd = ceil(($sommeECD / $nombrePers)*100);
         $efa = ceil(($sommeEFA / $nombrePers)*100);
-        $fonct = ceil(($sommeFONCT / $nombrePers)*100);
+        $fonct = ceil(($sommeFONCT / $nombrePers)*100); 
 
-
-        $search = new PersonnelSearch();
-        $form  = $this->createForm(PersonnelSearchType::class, $search);
-        $form->handleRequest($request);
-
-
-        $personnel = $paginator->paginate(
-            $this-> repository->findAllVisibleQuery($search), /* query NOT result */
+            $personnel = $paginator->paginate(
+            $this-> repository->findAllVisibleQuery($search ), /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             20 /*limit per page*/
         );
+        
+
+        
         return $this->render('admin/index.html.twig', [
-                'personnels' => $personnel,
+            'personnels' => $personnel,
             'form' => $form->createView(),
             'nombrePersonnel' => $nombrePers,
             'sommeECD' => $ecd,
@@ -106,6 +107,7 @@ class PersonnelController extends AbstractController
             $date = $personnel->getDatenaisse();
             $date = date_add($date, date_interval_create_from_date_string('65 years'));
             $personnel->setDateRetraite(new \DateTime(date_format($date, 'Y-m-d'))) ;
+ 
 
             $this->em->persist($personnel);
 
@@ -136,7 +138,10 @@ class PersonnelController extends AbstractController
 
              $this->em->flush();
              $this->addFlash('success', "Modification éfféctué avec succes !");
-           return $this->redirectToRoute('personnel.index');
+           return $this->redirectToRoute('personnel.show', [
+            'id' => $personnel->getId(),
+            'slug' => $personnel->getSlug()
+           ]);
          }
 
          return $this->render("admin/edit.html.twig", [
@@ -146,10 +151,5 @@ class PersonnelController extends AbstractController
 
 
      }
-
-
-
-
-
-
+     
 }

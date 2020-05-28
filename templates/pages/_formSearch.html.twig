@@ -1,11 +1,31 @@
-<div class="row formSearch" id="Search">
-    <div class="col-md-3"> {{ form_row(form.nomprenom) }}</div>
-    <div class="col-md-3"> {{ form_row(form.etsouservice) }}</div>
-    <div class="col-md-3"> {{ form_row(form.categorie) }}</div>
-    <div class="col-md-3"> {{ form_row(form.detachement) }}</div>
 
-    {{ form_rest(form) }}
-    <div class="text-left">
-        <button class="btn btn-info" > Recherche </button>
+
+{{ form_start(form) }}
+<label class="checkbox_export">Valider l'Exportation Excel
+    <input type="checkbox" name="export_excel" value="1">
+    <span class="checkmark"></span>
+  </label>
+  
+<div class="row">
+    <div class="col">
+        {{ form_row(form.nomprenom) }}
     </div>
+
+    <div class="col">
+        {{ form_row(form.etsouservice) }}
+    </div>
+
+    <div class="col">
+        {{ form_row(form.categorie) }}
+    </div>
+    {{ form_rest(form) }}
+    <div class="col">
+        <button type="submit" class="btn btn-primary"> Lancer...</button>
+    </div>
+    {{ form_end(form) }}    
+ 
 </div>
+ 
+
+
+ 

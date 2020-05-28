@@ -16,9 +16,9 @@
         {% for decoration in decorations  %}
             <tr>
                 <td>{{ decoration.nomprenom }} </td>
-                <td>{{ decoration.AnneeSce }} </td>
-                <th>{{ decoration.Age }} </th>
-                <td>{{ decoration.daterecrute }} </td>
+                <td>{{ decoration.anneeService }} </td>
+                <td>{{ decoration.age }} </td>
+                <td>  {{ decoration.daterecrute | date('d-m-Y')}}  </td>
             </tr>
 
             {% else %}
