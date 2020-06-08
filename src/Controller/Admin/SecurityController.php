@@ -48,8 +48,6 @@ class SecurityController extends AbstractController
     public function registration(Request $request, AuthenticationUtils $utils)
     {
         $user = new User();
-        $service = $this->repository->findService();
-        $ets = $this->repository->findEts();
 
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
@@ -66,9 +64,7 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('security/registration.html.twig', [
-            'form' => $form->createView(),
-            'services' => $service,
-            'ets' => $ets
+            'form' => $form->createView()
         ]);
     }
 

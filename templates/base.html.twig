@@ -7,11 +7,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-
+    <!-- Favicon -->
+    <link href="{{ asset('/images/logo/Favicon.png') }}" rel="icon" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link  href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
     <link  href="{{ asset('/css/app.css') }}" rel="stylesheet">
+
     
-    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    <!-- <link rel="stylesheet" href="build/app.css"> -->
 
     <style>
          .formSearch div{
@@ -49,7 +52,7 @@
                         <a class="dropdown-item" href="{{ path('detachement_index') }}">Détachement</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('direction_index') }}">Direction</a>
-                        <a class="dropdown-item" href="{{ path('security_registration') }}">Gerer les utilisateurs</a>
+                        <a class="dropdown-item" href="{{ path('security_registration') }}">Gérer les utilisateurs</a>
                         {% if app.user %}
                             <a href="{{ path('security_logout') }}" type="button" class="dropdown-item">Déconnexion</a>
                         {% endif %}
@@ -96,17 +99,35 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 #}
+<div class="clear"></div>
 <div class="card footer">
-     <p>Conception RANDRIANAIVONJOEL Tina Heriniana</p>
+    <div class="row">
+        <div class="col">
+           <p>Supérviseur : Commandant MBOLAMANANA</p>
+        </div>          
+        
+    </div>              
+     <div class="row">
+         <div class="col">
+            <p>Conception RANDRIANAIVONJOEL Tina Heriniana</p>
+            <p>Avec l'équipe de la Service INFOCOMM</p>
+         </div>
+            
+    </div>              
+     
 </div>
 <script type="text/javascript">
+    $('.close-container').click(function () {
+        $('.style').hide(1500);
+    })
 /*    var p = document.querySelector('#recherche').addEventListener('click', function () {
         var div = document.querySelector('#Search')
         div.classList.toggle("formSearch")
     })*/
 </script>
-<script src="{{ asset('build/app.js') }}"></script>
-{% block javascripts %} {% endblock %}
+<!-- <script src="build/app.js"></script> -->
+{% block javascripts %}
+ {% endblock %}
 
 </body>
 </html>

@@ -1,31 +1,39 @@
+<div class="container ">
+    <div class="formsearchtype">
+        {{ form_start(form) }}
+    <label class="checkbox_export">Valider l'Exportation Excel
+        <input type="checkbox" name="export_excel" value="1">
+        <span class="checkmark"></span>
+    </label>
 
-
-{{ form_start(form) }}
-<label class="checkbox_export">Valider l'Exportation Excel
-    <input type="checkbox" name="export_excel" value="1">
-    <span class="checkmark"></span>
-  </label>
-  
-<div class="row">
-    <div class="col">
-        {{ form_row(form.nomprenom) }}
+    <div class="form-group">
+      <label for="formGroupExampleInput">Nom ou Prénoms</label>
+      {{ form_row(form.nomprenom) }}
     </div>
-
-    <div class="col">
-        {{ form_row(form.etsouservice) }}
+    <div class="form-group">
+      <label for="formGroupExampleInput2">Service ou Etablissement</label>
+      {{ form_row(form.etsouservice) }}
     </div>
-
-    <div class="col">
+    <div class="form-group">
+        <label for="formGroupExampleInput2">Catégorie</label>
         {{ form_row(form.categorie) }}
     </div>
-    {{ form_rest(form) }}
-    <div class="col">
-        <button type="submit" class="btn btn-primary"> Lancer...</button>
+    <div class="form-group">
+    <label for="formGroupExampleInput2">Détachement</label>
+    {{ form_row(form.detachement) }}
     </div>
-    {{ form_end(form) }}    
  
+    {{ form_rest(form) }}
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary"> Lancer...</button>
+        </div>
+      </div>
+        
+    
+    {{ form_end(form) }}  
+    </div>       
+    
+
 </div>
- 
 
-
- 

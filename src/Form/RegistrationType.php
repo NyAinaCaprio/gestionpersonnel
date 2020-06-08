@@ -19,7 +19,8 @@ class RegistrationType extends AbstractType
 
             ])
             ->add('mail', TextType::class, [
-                'label' => false
+                'label' => false,
+                'required' => false
             ])
             ->add('password', PasswordType::class, [
                 'label' => false

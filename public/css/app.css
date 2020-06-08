@@ -1,13 +1,17 @@
 
 body{
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    color: #000000a8;
+    font-size: 14px;
+    
 }
 .progressBar {
-    background-color: rgba(117, 190, 218, 0.5); /* 0.5 - semi-transparent */
+    background-color: rgba(0, 0, 0, 0.1); /* 0.5 - semi-transparent */
     padding: 15px;
-    border-radius: 15px;
+    border-radius: 10px;
+    margin: 20px 10px;
+    border: solid 1px rgba(0, 0, 0, 0.2);
 }
 .main{
     margin: 20px 20px;
@@ -78,9 +82,12 @@ body{
 }
 .footer{
     bottom: 0;
-    
+    background: #d9d9d9;
+    position: fixed;
     width: 100%;
     padding: 20px 20px;
+    z-index: 5;
+    
 }
 .footer p{
     line-height: 20px;
@@ -153,4 +160,26 @@ body{
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+  .style{
+    position: relative;
+    border: solid 1px rgba(0, 0, 0, 0.2);
+    
+    padding: 30px 30px;
+  }
+  .close-container{
+    position: absolute;
+    top:-10px;
+    right: -10px;
+
+
+  }
+  .formsearchtype{
+    margin: 0 25%;
+  }
+  .clear{
+  margin-bottom: 155px;
+
+
+    
   }

@@ -84,10 +84,12 @@ class HomeController extends AbstractController
             $request->query->getInt('page', 1),
             4
         );
+        //$equipeInfo = $this->personnelRepo->findOneBy(['etsouservice_id' => 11]);
  
 
         return $this->render('pages/home.html.twig', [
             'directeurs' => $directeur,
+            
             'form' => $form->createView()
         ]);
     }

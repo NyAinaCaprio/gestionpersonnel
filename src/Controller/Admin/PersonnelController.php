@@ -14,6 +14,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+// Include PhpSpreadsheet required namespaces
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\Validator\Constraints\Length;
+
 //use Symfony\Component\validator\validator\ValidatorInterface;
 class PersonnelController extends AbstractController
 {
@@ -35,13 +42,14 @@ class PersonnelController extends AbstractController
     }
 
     /**
+     * 
      * @Route("personnel/", name="personnel.index")
      * @param PaginatorInterface $paginator
      * @param Request $request
      * @return Response
      */
     public function index(PaginatorInterface $paginator, Request $request):Response
-{       
+    {       
         $search = new PersonnelSearch();
         $form  = $this->createForm(PersonnelSearchType::class, $search);
         $form->handleRequest($request);
@@ -57,16 +65,61 @@ class PersonnelController extends AbstractController
         $fonct = ceil(($sommeFONCT / $nombrePers)*100); 
 
             $personnel = $paginator->paginate(
-            $this-> repository->findAllVisibleQuery($search ), /* query NOT result */
+            $this->repository->findAllVisibleQuery($search ), /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             20 /*limit per page*/
         );
         
+        if ($request->get('export_excel')==1) { 
+            $spreadsheet = new Spreadsheet();
+        
+        /* @var $sheet \PhpOffice\PhpSpreadsheet\Writer\Xlsx\Worksheet */
+        $sheet = $spreadsheet->getActiveSheet();
+        
+/*         $sheet->setCellValue('A1', 'Nom et Prénoms ');
+        $sheet->setCellValue('B1', 'Téléphone ');
+        $sheet->setCellValue('C1', 'Adresse ');
+        $sheet->setCellValue('D1', 'Service ou Etablissement');
+        $sheet->setCellValue('E1', 'Catégorie'); */
+            $personnel = $this->repository->exportExcel($search); 
+            
+            foreach ($personnel as $key => $perso) {
+                
+                // dd(count($perso));
+                // $key = $key + 2 ;                   
+                    
+                $sheet->setCellValue("A{$key}", $perso->getNomprenom());  
+                $sheet->setCellValue("B{$key}", $perso->getTelephone());
+                $sheet->setCellValue("C{$key}", $perso->getAdresseactuelle()); 
+                if ( $perso->getEtsouservice()) {
+                    $var =  $perso->getEtsouservice()->getEtsouservice();
+                }else{
+                    $var = "";
+                }
+                $sheet->setCellValue("D{$key}", $var); 
+                $sheet->setCellValue("E{$key}", $perso->getCategorie()->getCategorie()); 
 
+            } 
+
+        $sheet->setTitle("Personnel Civil");
+        // Create your Office 2007 Excel (XLSX Format)
+        $writer = new Xlsx($spreadsheet);
+        
+        // Crée temporairement le fichier dans le system
+        $fileName = 'PersonnelCivil.xlsx';
+        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+        
+        // Créez le fichier Excel dans le répertoire tmp du système
+        $writer->save($temp_file);
+        
+        // Return the excel file as an attachment
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+        }
         
         return $this->render('admin/index.html.twig', [
             'personnels' => $personnel,
             'form' => $form->createView(),
+            'exportexcel' => $request->get('export_excel'),
             'nombrePersonnel' => $nombrePers,
             'sommeECD' => $ecd,
             'sommeEFA' => $efa,

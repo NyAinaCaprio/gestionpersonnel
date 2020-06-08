@@ -63,8 +63,77 @@ class PersonnelRepository extends ServiceEntityRepository
                 ->setParameter('categorie',$search->getCategorie());
 
         }
+        if ($search->getDetachement())
+        {
+            $query = $query->andWhere('p.detachement = :detachement')
+                ->setParameter('detachement',$search->getDetachement());
+
+        }
 
              return $query->getQuery();
+
+    }
+
+        /**
+     * @param Personnel[]
+     * 
+     */
+    public function exportExcel(PersonnelSearch $search ): array
+    {
+
+         $query =  $this->findVisibleQuery();
+
+         if ($search->getNomprenom())
+         {
+             $query = $query->andWhere('p.nomprenom LIKE :nomprenom')
+                 ->setParameter('nomprenom', '%'.$search->getNomprenom().'%');
+
+         }
+        if ($search->getEtsouservice())
+        {
+            $query = $query->andWhere('p.etsouservice = :service')
+                ->setParameter('service',$search->getEtsouservice());
+
+        }
+        if ($search->getCategorie())
+        {
+            $query = $query->andWhere('p.categorie = :categorie')
+                ->setParameter('categorie',$search->getCategorie());
+
+        }
+
+             return $query->getQuery()->getResult();
+
+    }
+
+    /**
+     * @param Personnel[] 
+     */
+    public function exportdata(PersonnelSearch $search ): array
+    {
+
+         $query =  $this->findVisibleQuery();
+
+         if ($search->getNomprenom())
+         {
+             $query = $query->andWhere('p.nomprenom LIKE :nomprenom')
+                 ->setParameter('nomprenom', '%'.$search->getNomprenom().'%');
+
+         }
+        if ($search->getEtsouservice())
+        {
+            $query = $query->andWhere('p.etsouservice = :service')
+                ->setParameter('service',$search->getEtsouservice());
+
+        }
+        if ($search->getCategorie())
+        {
+            $query = $query->andWhere('p.categorie = :categorie')
+                ->setParameter('categorie',$search->getCategorie());
+
+        }
+
+             return $query->getQuery()->getResult();
 
     }
 

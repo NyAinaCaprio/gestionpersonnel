@@ -7,14 +7,17 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 
-var $ = require('jquery')
-require('../css/app.css');
-require('select2')
-$('select2').select2()
+var $ = require('jquery');
+require('../js/app.js');
+require('select2');
+$('select2').select2();
 
+$('.close-container').click(function(){
+    alert('Fermeture');
+});
 
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+

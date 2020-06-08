@@ -5,8 +5,10 @@
 {% block body %}
 
 
-    <div class="container mb-4">
-
+    <div class="mb-4 style">
+        <div class="close-container">
+            <img src="{{ asset('/images/app-img/close.jpg') }}"  alt="Fermer" >
+        </div>
         <div class="text-center">
             {% for message in app.flashes('success') %}
                 <div class="alert alert-danger">
@@ -15,14 +17,7 @@
             {% endfor %}
         </div>
         
-		<h1 >Nombre Personnel : {{ nombrePersonnel }}</h1>
-
-        <div class="blog-item-header">
-            <div class="box-header">
-                <h3 class="alert alert-success">Détails</h3>
-            </div>
-        </div>
-
+        <h1 >Efféctif personnel civil : {{ nombrePersonnel }}</h1>
         <div class="row">
 
             <div class="col-md-4">
@@ -30,7 +25,7 @@
                 <div class="info-box bg-yellow">
                     <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
                     <div class="info-box-content progressBar">
-                        <span class="info-box-text" style="font-size: 2rem">ECD</span>
+                        <span class="info-box-text" style="font-size: 1rem">ECD</span>
                         <span class="info-box-number" > : {{ effectECD }}</span>
                         <div class="progress sm">
                             <div class="progress-bar progress-bar-green" style="width:{{ sommeECD }}%"> {{ sommeECD }} %</div>
@@ -47,7 +42,7 @@
                 <div class="info-box bg-yellow">
                     <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
                     <div class="info-box-content progressBar">
-                        <span class="info-box-text" style="font-size: 2rem">EFA</span>
+                        <span class="info-box-text" style="font-size: 1rem">EFA</span>
                         <span class="info-box-number"> : {{ effectEFA }} </span>
                         <div class="progress sm">
                             <div class="progress-bar progress-bar-green" style="width:{{ sommeEFA }}%">{{ sommeEFA }}%</div>
@@ -64,7 +59,7 @@
                 <div class="info-box bg-yellow">
                     <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
                     <div class="info-box-content progressBar">
-                        <span class="info-box-text" style="font-size: 2rem">FONCTIONNAIRE</span>
+                        <span class="info-box-text" style="font-size: 1rem">FONCTIONNAIRE</span>
                         <span class="info-box-number"> : {{ effectFONCT }}</span>
                         <div class="progress sm">
                             <div class="progress-bar progress-bar-green" style="width:{{ sommeFONCT }}%">{{ sommeFONCT }}%</div>
@@ -75,17 +70,11 @@
             </div>
         </div>
  
-           <hr>
-           {% include "pages/_formSearch.html.twig" %}  
+            
 
     </div> 
-
-    {% if {{exportexcel}} ==1 %}
-        
-    {% endif %}
-
-
-
+    
+    {% include "pages/_formSearch.html.twig" %} 
 
     <div class="alert alert-primary" role="alert">Liste Personnel</div>
     <table class="table table-hover">
@@ -117,6 +106,7 @@
         {% endfor %}
     </table>
     {{ knp_pagination_render(personnels) }}
+    
 {% endblock %}
 
 {% block javascripts %}{% endblock %}

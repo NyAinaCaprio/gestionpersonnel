@@ -13,12 +13,12 @@
                 <div class="col-md-4"><div class="text-left">Service ou Etablissement : {% if personnel.etsouservice.etsouservice is defined %} {{ personnel.etsouservice.etsouservice }} {% endif %} </div></div>
             </div>
             <div class="row">
-                <div class="col-md-4">N° : </div>
+                <div class="col-md-4">N° : {{personnel.id}} </div>
             </div>
             
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col">
                     <h4>Rensegnements personnels</h4>
                     <div class="">Nom et Prénom(s) : {{ personnel.nomprenom }}</div>
                     <div class="">Date de naissance : {{ personnel.datenaisse| date("d/m/Y") }}</div>
@@ -32,7 +32,7 @@
                     <div class="">Groupe éthnique: {{ personnel.groupeethnique}}</div>
                     <div class="">Groupe religion: {{ personnel.religion}}</div>
                 </div>
-                <div class="col-md-4">
+                <div class="col">
                     <h5>ETAT DE SERVICES</h5>
                     <div class="col">Affectation Actuelle: {{ personnel.affectionactuelle}}</div>
                     <div class="col">Direction: {% if personnel.direction.name is defined  %} {{ personnel.direction.name}} {% endif %}</div>
@@ -55,12 +55,12 @@
             <hr>
             <h5>Conjoint(e)</h5>
             <div class="row">
-                <div class="col-md-4">Nom & Prénom(s)  : {% if personnel.nomconjoint is defined %} {{ personnel.nomconjoint }} {% endif %}</div>
-                <div class="col-md-4">Date de naissance : {% if personnel.dateNaissConj is defined %} {{ personnel.dateNaissConj | date('d/M/Y') }} {% endif %}</div>
+                <div class="col">Nom & Prénom(s)  : {% if personnel.nomconjoint is defined %} {{ personnel.nomconjoint }} {% endif %}</div>
+                <div class="col">Date de naissance : {% if personnel.dateNaissConj is defined %} {{ personnel.dateNaissConj | date('d/M/Y') }} {% endif %}</div>
             </div>
             <div class="row">
-                <div class="col-md-4">Date de mariage : {% if personnel.datemariage is defined %} {{ personnel.datemariage | date('d/M/Y') }} {% endif %}</div>
-                <div class="col-md-4">Lieu de naissance : {% if personnel.lieuNaissConj is defined %} {{ personnel.lieuNaissConj }} {% endif %}</div>
+                <div class="col">Date de mariage : {% if personnel.datemariage is defined %} {{ personnel.datemariage | date('d/M/Y') }} {% endif %}</div>
+                <div class="col">Lieu de naissance : {% if personnel.lieuNaissConj is defined %} {{ personnel.lieuNaissConj }} {% endif %}</div>
             </div>
             <hr>
             <div class="row">
@@ -69,7 +69,7 @@
                     <table class="table table-responsive small">
                         <thead>
                         <tr>
-                            <th scope="col">Nom & Prénoms</th>
+                            <th scope="col">Nom et Prénoms</th>
                             <th scope="col">Date de naisance</th>
                             <th scope="col">Sexe</th>
                             <th scope="col">Observation</th>
@@ -79,10 +79,10 @@
                         {% if personnel.enfant is defined %}
                             {% for enfant in personnel.enfant %}
                                 <tr>
-                                    <th>{{ enfant.nomprenom }}</th>
-                                    <th>{{ enfant.datenaisse | date('d/m/Y')}}</th>
-                                    <th>{{ enfant.sexe }}</th>
-                                    <th>{{ enfant.observation }}</th>
+                                    <td>{{ enfant.nomprenom }}</td>
+                                    <td>{{ enfant.datenaisse | date('d/m/Y')}}</td>
+                                    <td>{{ enfant.sexe }}</td>
+                                    <td>{{ enfant.observation }}</td>
                                 </tr>
                             {% endfor %}
                         {% endif %}
@@ -103,9 +103,9 @@
                         {% if personnel.avancement is defined %}
                             {% for avancement in personnel.avancement %}
                                 <tr>
-                                    <th>{{ avancement.statu }}</th>
-                                    <th>{{ avancement.reference}}</th>
-                                    <th>{{ avancement.dateeffet | date('d/m/Y') }}</th>
+                                    <td>{{ avancement.statu }}</td>
+                                    <td>{{ avancement.reference}}</td>
+                                    <td>{{ avancement.dateeffet | date('d/m/Y') }}</td>
                                 </tr>
                             {% endfor %}
                         {% endif %}
@@ -129,9 +129,9 @@
                         {% if personnel.decoration is defined %}
                             {% for decoration in personnel.decoration %}
                                 <tr>
-                                    <th>{{ decoration.listeDeco.decoration }}</th>
-                                    <th>{{ decoration.decretouarrete}}</th>
-                                    <th>{{ decoration.annee }}</th>
+                                    <td>{{ decoration.listeDeco.decoration }}</td>
+                                    <td>{{ decoration.decretouarrete}}</td>
+                                    <td>{{ decoration.annee }}</td>
                                 </tr>
                             {% endfor %}
                         {% endif %}
@@ -153,10 +153,35 @@
                         {% if personnel.affectationsuccessive is defined %}
                             {% for affectation in personnel.affectationsuccessive %}
                                 <tr>
-                                    <th>{{ affectation.lieuaffect }}</th>
-                                    <th> {% if affectation.detachement.name is defined %} {{ affectation.detachement.name }} {% endif %} </th>
-                                    <th> {{ affectation.fonctiontenue }}</th>
-                                    <th> {{ affectation.dateeffet | date('d/m/Y')}}</th>
+                                    <td>{{ affectation.lieuaffect }}</td>
+                                    <td> {% if affectation.detachement.name is defined %} {{ affectation.detachement.name }} {% endif %} </td>
+                                    <td> {{ affectation.fonctiontenue }}</td>
+                                    <td> {{ affectation.dateeffet | date('d/m/Y')}}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <h5>Ecoles/Formations/Stages</h5>
+                    <table class="table table-responsive small">
+                        <thead>
+                        <tr>
+                            <th scope="col">Intitulé</th>
+                            <th scope="col">Etablissement</th>
+                            <th scope="col">Diplome</th>
+                            <th scope="col">Année</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if personnel.ecole is defined %}
+                            {% for ecole in personnel.ecole %}
+                                <tr>
+                                    <td>{{ ecole.intitule }}</td>
+                                    <td> {% if ecole.etablissement is defined %} {{ ecole.etablissement }} {% endif %} </td>
+                                    <td> {{ ecole.diplome }}</td>
+                                    <td> {{ ecole.annee }}</td>
                                 </tr>
                             {% endfor %}
                         {% endif %}

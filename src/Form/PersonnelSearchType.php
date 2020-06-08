@@ -41,6 +41,14 @@ class PersonnelSearchType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Catégorie...']
             ])
+            ->add('detachement', EntityType::class,[
+                'required'=> false,
+                'choice_label' => 'name',
+                'class' => Detachement::class,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Détachement...']
+            ])
         ;
     }
 
